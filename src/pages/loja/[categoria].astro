@@ -1,0 +1,68 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import CabecalhoPagina from '../../components/layout/CabecalhoPagina.astro';
+import GradeProdutos from '../../components/produto/GradeProdutos.astro';
+import FiltroLoja from '../../components/islands/FiltroLoja';
+import { listarCategorias, listarProdutos, mapaCategorias } from '../../lib/catalogo/consultas';
+import { ordenarPorDestaque } from '../../lib/catalogo/filtro';
+import type { Categoria } from '../../lib/catalogo/schema';
+
+export const getStaticPaths = (async () => {
+  const categorias = await listarCategorias();
+  return categorias.map((categoria) => ({ params: { categoria: categoria.id }, props: { categoria } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  categoria: Categoria;
+}
+
+const { categoria } = Astro.props;
+const [todos, categorias, porId] = await Promise.all([
+  listarProdutos(),
+  listarCategorias(),
+  mapaCategorias(),
+]);
+const produtos = ordenarPorDestaque(todos.filter((p) => p.categoria === categoria.id));
+const chips = categorias.map((c) => ({
+  id: c.id,
+  nome: c.nome,
+  cor: c.cor,
+  quantidade: todos.filter((p) => p.categoria === c.id).length,
+}));
+---
+
+<Base
+  titulo={categoria.nome}
+  descricao={`${categoria.nome} Conexão Capixaba. ${categoria.descricao} Enviamos para todo o Brasil.`}
+>
+  <CabecalhoPagina
+    titulo={categoria.nome}
+    sobretitulo="Categoria"
+    cor={categoria.cor}
+    trilha={[{ rotulo: 'Loja', href: '/loja' }, { rotulo: categoria.nome }]}
+  >
+    <p class="max-w-2xl text-lg text-texto-mudo">{categoria.descricao}</p>
+  </CabecalhoPagina>
+
+  <section class="container-site flex flex-col gap-6" aria-label={categoria.nome}>
+    <FiltroLoja
+      client:load
+      categorias={chips}
+      categoriaFixa={categoria.id}
+      idGrade="grade-categoria"
+      total={todos.length}
+    />
+    {produtos.length > 0 ? (
+      <GradeProdutos id="grade-categoria" produtos={produtos} categorias={porId} rotulo={categoria.nome} />
+    ) : (
+      <div class="filtro__vazio">
+        <p class="filtro__vazio-titulo">Em breve nesta pista.</p>
+        <p>Ainda não temos {categoria.nome.toLowerCase()} disponíveis. Veja os outros produtos da loja.</p>
+        <a href="/loja" class="botao botao--contorno">
+          Ver toda a loja
+        </a>
+      </div>
+    )}
+  </section>
+</Base>

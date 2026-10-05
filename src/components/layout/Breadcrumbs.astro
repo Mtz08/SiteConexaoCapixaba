@@ -1,0 +1,72 @@
+---
+/**
+ * Trilha de navegação ("Início › Loja › Camisetas"). O último item é a página atual.
+ * O JSON-LD BreadcrumbList é adicionado na fase de SEO.
+ */
+export interface ItemTrilha {
+  rotulo: string;
+  href?: string;
+}
+
+interface Props {
+  itens: ItemTrilha[];
+}
+
+const { itens } = Astro.props;
+const trilha: ItemTrilha[] = [{ rotulo: 'Início', href: '/' }, ...itens];
+---
+
+<nav aria-label="Você está em" class="trilha">
+  <ol>
+    {trilha.map((item, i) => {
+      const atual = i === trilha.length - 1;
+      return (
+        <li>
+          {atual || !item.href ? (
+            <span aria-current={atual ? 'page' : undefined}>{item.rotulo}</span>
+          ) : (
+            <a href={item.href}>{item.rotulo}</a>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>
+
+<style>
+  .trilha ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 0.25rem;
+    font-size: var(--text-sm);
+    color: var(--texto-mudo);
+  }
+  .trilha li {
+    display: inline-flex;
+    align-items: center;
+  }
+  .trilha li + li::before {
+    content: '';
+    width: 1.1rem;
+    height: 3px;
+    margin-inline: 0.375rem;
+    border-radius: 2px;
+    background-color: var(--placa-amarela);
+    opacity: 0.8;
+  }
+  .trilha a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    text-decoration: none;
+  }
+  .trilha a:hover {
+    color: var(--texto);
+    text-decoration: underline;
+  }
+  .trilha [aria-current] {
+    color: var(--texto);
+    font-weight: 600;
+  }
+</style>

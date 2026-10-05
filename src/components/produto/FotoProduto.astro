@@ -1,0 +1,46 @@
+---
+import { Picture } from 'astro:assets';
+import { PlaceholderPlaca } from './PlaceholderPlaca';
+import { fotoPrincipal, fotosDoProduto } from '../../lib/catalogo/fotos';
+import type { Categoria, Produto } from '../../lib/catalogo/schema';
+
+/**
+ * Foto principal do produto (AVIF/WebP responsivo) ou placeholder de placa.
+ * Nunca renderiza imagem quebrada.
+ */
+interface Props {
+  produto: Produto;
+  categoria: Categoria;
+  /** Atributo sizes da imagem. Padrão: grade da loja (2/3/4 colunas). */
+  sizes?: string;
+  /** true na primeira dobra: carrega na hora com prioridade alta. */
+  prioridade?: boolean;
+  class?: string;
+}
+
+const {
+  produto,
+  categoria,
+  sizes = '(min-width: 80rem) 18rem, (min-width: 64rem) 23vw, (min-width: 48rem) 31vw, 47vw',
+  prioridade = false,
+  class: classe,
+} = Astro.props;
+
+const foto = fotoPrincipal(fotosDoProduto(produto));
+---
+
+{foto ? (
+  <Picture
+    src={foto.imagem}
+    alt={foto.alt}
+    formats={['avif', 'webp']}
+    widths={[240, 360, 480, 720, 960]}
+    sizes={sizes}
+    class:list={['foto-produto', classe]}
+    loading={prioridade ? 'eager' : 'lazy'}
+    fetchpriority={prioridade ? 'high' : 'auto'}
+    decoding="async"
+  />
+) : (
+  <PlaceholderPlaca nome={produto.nome} categoria={categoria} class={classe} />
+)}

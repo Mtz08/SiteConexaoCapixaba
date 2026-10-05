@@ -1,0 +1,304 @@
+/* Controles compartilhados (Astro e ilhas). */
+@layer components {
+  /* ------------------------------------------------------------------------
+     Botões
+     ------------------------------------------------------------------------ */
+  .botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.625rem 1.25rem;
+    border: 2px solid transparent;
+    border-radius: var(--raio);
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: var(--text-base);
+    letter-spacing: 0.03em;
+    line-height: 1.1;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color 0.15s,
+      border-color 0.15s,
+      color 0.15s,
+      transform 0.1s;
+  }
+  .botao:active {
+    transform: translateY(1px);
+  }
+  .botao:disabled,
+  .botao[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  /* Principal: amarelo de advertência */
+  .botao--primario {
+    background-color: var(--placa-amarela);
+    color: var(--asfalto);
+  }
+  .botao--primario:hover {
+    background-color: var(--placa-amarela-2);
+  }
+
+  /* Destaque secundário: vermelho PARE */
+  .botao--pare {
+    background-color: var(--placa-pare);
+    color: #ffffff;
+  }
+  .botao--pare:hover {
+    background-color: var(--placa-pare-2);
+  }
+
+  /* EXCLUSIVO para ações de WhatsApp */
+  .botao--whatsapp {
+    background-color: var(--whatsapp);
+    color: var(--whatsapp-tx);
+  }
+  .botao--whatsapp:hover {
+    background-color: var(--whatsapp-2);
+  }
+
+  .botao--contorno {
+    border-color: var(--borda-controle);
+    background-color: transparent;
+    color: var(--texto);
+  }
+  .botao--contorno:hover {
+    border-color: var(--texto);
+    background-color: var(--asfalto-2);
+  }
+
+  .botao--bloco {
+    width: 100%;
+  }
+
+  /* ------------------------------------------------------------------------
+     Campos
+     ------------------------------------------------------------------------ */
+  .campo {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.875rem;
+    border: 2px solid var(--borda-controle);
+    border-radius: var(--raio);
+    background-color: var(--asfalto-2);
+    color: var(--texto);
+    font: inherit;
+    font-size: max(16px, var(--text-base)); /* 16px evita zoom automático no iOS */
+    transition: border-color 0.15s;
+  }
+  .campo::placeholder {
+    color: var(--texto-mudo);
+    opacity: 1;
+  }
+  .campo:hover {
+    border-color: var(--texto-mudo);
+  }
+  .campo:focus-visible {
+    border-color: var(--placa-amarela);
+    outline-offset: 1px;
+  }
+  select.campo {
+    appearance: none;
+    padding-right: 2.5rem;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--texto) 50%),
+      linear-gradient(135deg, var(--texto) 50%, transparent 50%);
+    background-position:
+      calc(100% - 1.25rem) 50%,
+      calc(100% - 0.875rem) 50%;
+    background-size: 0.375rem 0.375rem;
+    background-repeat: no-repeat;
+  }
+
+  /* ------------------------------------------------------------------------
+     Chips de categoria
+     ------------------------------------------------------------------------ */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.375rem 0.875rem;
+    border: 2px solid var(--borda-controle);
+    border-radius: 999px;
+    font-stretch: 85%;
+    font-weight: 750;
+    font-size: var(--text-sm);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: var(--texto);
+    transition:
+      background-color 0.15s,
+      border-color 0.15s,
+      color 0.15s;
+  }
+  .chip:hover {
+    border-color: var(--texto);
+  }
+  .chip__ponto {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 0.2rem;
+    background-color: var(--cor-placa);
+    box-shadow:
+      0 0 0 1.5px var(--asfalto),
+      0 0 0 2.5px var(--cor-placa);
+  }
+  .chip__quantidade {
+    min-width: 1.5rem;
+    padding: 0.05rem 0.4rem;
+    border-radius: 999px;
+    background-color: var(--asfalto-3);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.75rem;
+    text-align: center;
+    color: var(--texto-mudo);
+  }
+  .chip[aria-current] {
+    border-color: var(--cor-placa, var(--placa-amarela));
+    background-color: var(--cor-placa, var(--placa-amarela));
+    color: var(--cor-placa-tx, var(--asfalto));
+  }
+  .chip[aria-current] .chip__ponto {
+    background-color: currentColor;
+    box-shadow: none;
+  }
+  .chip[aria-current] .chip__quantidade {
+    background-color: rgb(0 0 0 / 0.18);
+    color: inherit;
+  }
+
+  /* ------------------------------------------------------------------------
+     Barra de filtros da loja
+     ------------------------------------------------------------------------ */
+  .filtro {
+    display: grid;
+    gap: 1rem;
+  }
+  .filtro__chips ul {
+    display: flex;
+    gap: 0.5rem;
+    margin-inline: -1rem;
+    padding: 0.25rem 1rem 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scroll-snap-type: x proximity;
+  }
+  .filtro__chips li {
+    flex: none;
+    scroll-snap-align: start;
+  }
+  @media (width >= 48rem) {
+    .filtro__chips ul {
+      flex-wrap: wrap;
+      margin-inline: 0;
+      padding-inline: 0;
+      overflow: visible;
+    }
+  }
+
+  .filtro__controles {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  /* Sem JS a busca e a ordenação não funcionam: ficam invisíveis (espaço reservado, sem CLS) */
+  .filtro:not([data-hidratado]) .filtro__controles {
+    visibility: hidden;
+  }
+  .filtro__busca {
+    position: relative;
+    grid-column: 1 / -1;
+  }
+  .filtro__busca .campo {
+    padding-left: 2.75rem;
+  }
+  .filtro__lupa {
+    position: absolute;
+    top: 50%;
+    left: 0.875rem;
+    translate: 0 -50%;
+    color: var(--texto-mudo);
+    pointer-events: none;
+  }
+  .filtro__ordem {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .filtro__ordem label {
+    font-size: var(--text-sm);
+    color: var(--texto-mudo);
+  }
+  .filtro__ordem .campo {
+    width: auto;
+  }
+  .filtro__quantidade {
+    justify-self: end;
+    font-size: var(--text-sm);
+    color: var(--texto-mudo);
+    font-variant-numeric: tabular-nums;
+  }
+  @media (width >= 48rem) {
+    .filtro__controles {
+      grid-template-columns: minmax(16rem, 26rem) auto 1fr;
+    }
+    .filtro__busca {
+      grid-column: auto;
+    }
+  }
+
+  .filtro__vazio {
+    display: grid;
+    justify-items: start;
+    gap: 0.75rem;
+    padding: 2rem 1.5rem;
+    border: 2px dashed var(--faixa-2);
+    border-radius: var(--raio-placa);
+    color: var(--texto-mudo);
+  }
+  .filtro__vazio-titulo {
+    font-stretch: 72%;
+    font-weight: 850;
+    font-size: var(--text-2xl);
+    text-transform: uppercase;
+    color: var(--texto);
+  }
+
+  /* ------------------------------------------------------------------------
+     Grade de produtos: 2 / 3 / 4 colunas
+     ------------------------------------------------------------------------ */
+  .grade-produtos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.875rem;
+  }
+  @media (width >= 48rem) {
+    .grade-produtos {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+  @media (width >= 64rem) {
+    .grade-produtos {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+  .grade-produtos > li {
+    display: flex;
+  }
+  .grade-produtos > li > * {
+    flex: 1;
+  }
+}

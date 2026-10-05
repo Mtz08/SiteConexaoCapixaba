@@ -91,6 +91,11 @@ de exemplo, enquanto ele não for trocado).
 - **Estilo escopado (`<style>` do componente) vence utilitário do Tailwind.** Não combine
   `class="minha-classe md:hidden"` se `.minha-classe` define `display`: faça a media query no
   próprio `<style>`.
+- Componentes visuais reaproveitados por ilhas (placeholder, preço, ícones) são **TSX Preact**
+  renderizados pelo Astro sem `client:` (zero JS). Como TSX não tem estilo escopado, o CSS deles
+  fica em `src/styles/ui.css` e `src/styles/produto.css`, dentro de `@layer components`.
+- Ilhas em `src/components/islands/`. A loja usa uma ilha só para a barra de filtros: os cartões
+  são HTML do build e a ilha os esconde/reordena (movendo os nós, para a ordem do teclado acompanhar).
 - Commits semânticos: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`.
 
 ## Testes visuais

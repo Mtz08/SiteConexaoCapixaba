@@ -1,0 +1,37 @@
+---
+import Base from '../../layouts/Base.astro';
+import CabecalhoPagina from '../../components/layout/CabecalhoPagina.astro';
+import GradeProdutos from '../../components/produto/GradeProdutos.astro';
+import FiltroLoja from '../../components/islands/FiltroLoja';
+import { listarCategorias, listarProdutos, mapaCategorias } from '../../lib/catalogo/consultas';
+import { ordenarPorDestaque } from '../../lib/catalogo/filtro';
+
+const [produtos, categorias, porId] = await Promise.all([
+  listarProdutos(),
+  listarCategorias(),
+  mapaCategorias(),
+]);
+const ordenados = ordenarPorDestaque(produtos);
+const chips = categorias.map((c) => ({
+  id: c.id,
+  nome: c.nome,
+  cor: c.cor,
+  quantidade: produtos.filter((p) => p.categoria === c.id).length,
+}));
+---
+
+<Base
+  titulo="Loja"
+  descricao="Camisas polo, camisetas, moletons, bonés e adesivos para quem vive a estrada. Escolha, monte seu pedido e finalize pelo WhatsApp."
+>
+  <CabecalhoPagina titulo="A loja" sobretitulo="Todos os produtos" trilha={[{ rotulo: 'Loja' }]}>
+    <p class="max-w-2xl text-lg text-texto-mudo">
+      Escolha o produto, o tamanho e a quantidade. O pedido segue pronto para o nosso WhatsApp.
+    </p>
+  </CabecalhoPagina>
+
+  <section class="container-site flex flex-col gap-6" aria-label="Produtos">
+    <FiltroLoja client:load categorias={chips} idGrade="grade-loja" total={produtos.length} />
+    <GradeProdutos id="grade-loja" produtos={ordenados} categorias={porId} rotulo="Produtos" />
+  </section>
+</Base>

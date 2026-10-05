@@ -1,0 +1,46 @@
+---
+import Breadcrumbs, { type ItemTrilha } from './Breadcrumbs.astro';
+
+/** Topo das páginas internas: trilha, sobretítulo, h1 e texto de apoio. */
+interface Props {
+  titulo: string;
+  sobretitulo?: string;
+  trilha: ItemTrilha[];
+  /** Cor de placa do sobretítulo (categoria). */
+  cor?: string;
+}
+
+const { titulo, sobretitulo, trilha, cor } = Astro.props;
+---
+
+<header class="cabecalho-pagina container-site">
+  <Breadcrumbs itens={trilha} />
+  <div class="mt-4 flex flex-col gap-3">
+    {sobretitulo && (
+      <p class="sobretitulo" data-cor={cor}>
+        {sobretitulo}
+      </p>
+    )}
+    <h1 class="titulo-placa text-5xl">{titulo}</h1>
+    <slot />
+  </div>
+</header>
+
+<style>
+  .cabecalho-pagina {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+  }
+  .sobretitulo {
+    align-self: flex-start;
+    padding: 0.3rem 0.625rem;
+    border-radius: 0.3rem;
+    background-color: var(--cor-placa, var(--placa-amarela));
+    color: var(--cor-placa-tx, var(--asfalto));
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: var(--text-xs);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+</style>

@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/archivo/wdth.css';
+@import './ui.css';
+@import './produto.css';
 
 /* ==========================================================================
    Tokens — "Sinalização de rodovia à noite"

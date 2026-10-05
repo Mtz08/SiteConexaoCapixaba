@@ -1,0 +1,152 @@
+/* Componentes de produto usados em Astro e em ilhas Preact (sem estilo escopado). */
+@layer components {
+  /* ------------------------------------------------------------------------
+     Placeholder em formato de placa (produto sem foto)
+     ------------------------------------------------------------------------ */
+  .placeholder-placa {
+    position: relative;
+    display: grid;
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    padding: 0.5rem;
+    overflow: hidden;
+    background-color: var(--cor-placa);
+    background-image:
+      linear-gradient(160deg, rgb(255 255 255 / 0.16), transparent 45%),
+      repeating-linear-gradient(135deg, rgb(255 255 255 / 0.035) 0 10px, transparent 10px 20px);
+    color: var(--cor-placa-tx);
+    border-radius: inherit;
+  }
+
+  .placeholder-placa__moldura {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    justify-items: center;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.75rem 0.625rem;
+    border: 2px solid currentColor;
+    border-radius: calc(var(--raio-placa) - 0.25rem);
+    text-align: center;
+  }
+
+  .placeholder-placa__marca {
+    font-stretch: 85%;
+    font-weight: 750;
+    font-size: 0.625rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .placeholder-placa__icone {
+    width: min(58%, 9rem);
+    height: auto;
+    opacity: 0.95;
+  }
+
+  .placeholder-placa__nome {
+    font-stretch: 68%;
+    font-weight: 880;
+    font-size: clamp(0.95rem, 0.8rem + 0.6vw, 1.25rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .placeholder-placa--galeria .placeholder-placa__nome {
+    font-size: clamp(1.25rem, 1rem + 1.2vw, 2rem);
+  }
+  .placeholder-placa--galeria .placeholder-placa__marca {
+    font-size: 0.75rem;
+  }
+
+  .placeholder-placa--mini {
+    padding: 0.25rem;
+  }
+  .placeholder-placa--mini .placeholder-placa__moldura {
+    grid-template-rows: 1fr;
+    padding: 0.25rem;
+    border-width: 1.5px;
+  }
+  .placeholder-placa--mini .placeholder-placa__icone {
+    width: 70%;
+  }
+}
+
+@layer components {
+  /* ------------------------------------------------------------------------
+     Foto de produto
+     ------------------------------------------------------------------------ */
+  .foto-produto,
+  picture > img.foto-produto {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background-color: var(--asfalto-3);
+    border-radius: inherit;
+  }
+
+  /* ------------------------------------------------------------------------
+     Preço
+     ------------------------------------------------------------------------ */
+  .preco {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0.5rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.15;
+  }
+  .preco__valor {
+    font-stretch: 80%;
+    font-weight: 850;
+    font-size: var(--text-lg);
+  }
+  .preco--lg .preco__valor {
+    font-size: var(--text-3xl);
+  }
+  .preco__de {
+    font-size: var(--text-sm);
+    opacity: 0.8;
+  }
+  .preco__a-partir {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  /* ------------------------------------------------------------------------
+     Selos (NOVO, PROMOÇÃO, ESGOTADO)
+     ------------------------------------------------------------------------ */
+  .selo {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.3rem;
+    font-stretch: 80%;
+    font-weight: 850;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.35);
+  }
+  .selo--novo {
+    background-color: var(--placa-amarela);
+    color: var(--asfalto);
+  }
+  .selo--promo {
+    background-color: var(--placa-pare);
+    color: #ffffff;
+  }
+  .selo--esgotado {
+    background-color: var(--asfalto);
+    color: var(--texto);
+    border: 1px solid var(--borda-controle);
+  }
+}

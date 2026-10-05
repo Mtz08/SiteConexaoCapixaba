@@ -1,0 +1,248 @@
+---
+import FotoProduto from './FotoProduto.astro';
+import { Preco } from './Preco';
+import { faixaDePreco } from '../../lib/catalogo/variacoes';
+import type { Categoria, Produto } from '../../lib/catalogo/schema';
+import { textoDeBusca } from '../../lib/texto';
+
+/**
+ * Cartão de produto em formato de placa de rodovia: cor da categoria, moldura interna
+ * e brilho refletivo no hover. O cartão inteiro é clicável (link no título).
+ * Os data-* alimentam o filtro/busca/ordenação da loja.
+ */
+interface Props {
+  produto: Produto;
+  categoria: Categoria;
+  /** Posição na ordem padrão (destaques), usada pela ordenação no navegador. */
+  posicao: number;
+  nivelTitulo?: 'h2' | 'h3';
+  prioridade?: boolean;
+}
+
+const { produto, categoria, posicao, nivelTitulo = 'h3', prioridade = false } = Astro.props;
+const Titulo = nivelTitulo;
+const faixa = faixaDePreco(produto);
+const emPromocao = produto.precoDe !== undefined && !faixa.esgotado;
+const busca = textoDeBusca([
+  produto.nome,
+  categoria.nome,
+  categoria.nomeSingular,
+  produto.descricaoCurta,
+  ...produto.tags,
+]);
+---
+
+<article
+  class="cartao"
+  data-cor={categoria.cor}
+  data-produto={produto.id}
+  data-categoria={produto.categoria}
+  data-busca={busca}
+  data-preco={faixa.min}
+  data-posicao={posicao}
+  data-nome={produto.nome}
+>
+  <div class="cartao__foto">
+    <FotoProduto produto={produto} categoria={categoria} prioridade={prioridade} />
+    {(produto.novo || emPromocao || faixa.esgotado) && (
+      <div class="cartao__selos">
+        {faixa.esgotado && <span class="selo selo--esgotado">Esgotado</span>}
+        {!faixa.esgotado && produto.novo && <span class="selo selo--novo">Novo</span>}
+        {emPromocao && <span class="selo selo--promo">Promoção</span>}
+      </div>
+    )}
+  </div>
+
+  <div class="cartao__corpo">
+    <p class="cartao__categoria">{categoria.nomeSingular}</p>
+    <Titulo class="cartao__titulo">
+      <a href={`/produto/${produto.slug}`} class="cartao__link">
+        {produto.nome}
+      </a>
+    </Titulo>
+    <p class="cartao__descricao">{produto.descricaoCurta}</p>
+    <div class="cartao__rodape">
+      <Preco preco={faixa.min} precoDe={produto.precoDe} aPartirDe={faixa.min !== faixa.max} />
+      <span class="cartao__seta" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </span>
+    </div>
+  </div>
+</article>
+
+<style>
+  .cartao {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    padding: 0.375rem;
+    border-radius: var(--raio-placa);
+    background-color: var(--cor-placa);
+    color: var(--cor-placa-tx);
+    box-shadow: var(--sombra-placa);
+    overflow: hidden;
+    transition:
+      transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+      box-shadow 0.25s;
+  }
+
+  /* Moldura interna fina, como nas placas de rodovia */
+  .cartao::before {
+    content: '';
+    position: absolute;
+    inset: 0.375rem;
+    z-index: 2;
+    border: 2px solid currentColor;
+    border-radius: calc(var(--raio-placa) - 0.3rem);
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  /* Brilho refletivo: faixa de luz que atravessa o cartão sob o "farol" */
+  .cartao::after {
+    content: '';
+    position: absolute;
+    inset: -50% auto -50% -60%;
+    z-index: 3;
+    width: 45%;
+    background: linear-gradient(
+      100deg,
+      transparent 0%,
+      rgb(255 255 255 / 0.05) 35%,
+      rgb(255 255 255 / 0.28) 50%,
+      rgb(255 255 255 / 0.05) 65%,
+      transparent 100%
+    );
+    transform: translateX(0) rotate(8deg);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (hover: hover) {
+    .cartao:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        var(--sombra-placa),
+        0 18px 40px -16px rgb(0 0 0 / 0.8);
+    }
+    .cartao:hover::after {
+      opacity: 1;
+      transform: translateX(420%) rotate(8deg);
+      transition:
+        transform 0.9s cubic-bezier(0.25, 0.6, 0.3, 1),
+        opacity 0.2s;
+    }
+  }
+
+  .cartao:focus-within {
+    outline: 3px solid var(--placa-amarela);
+    outline-offset: 3px;
+  }
+  .cartao__link:focus-visible {
+    outline: none;
+  }
+
+  .cartao__foto {
+    position: relative;
+    border-radius: calc(var(--raio-placa) - 0.3rem) calc(var(--raio-placa) - 0.3rem) 0.25rem 0.25rem;
+    overflow: hidden;
+  }
+  .cartao__foto :global(.placeholder-placa) {
+    padding: 0.25rem;
+  }
+  .cartao__foto :global(.placeholder-placa__moldura) {
+    border-color: transparent;
+  }
+  /* No cartão, a marca do placeholder disputaria espaço com os selos */
+  .cartao__foto :global(.placeholder-placa__marca) {
+    visibility: hidden;
+  }
+
+  .cartao__selos {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .cartao__corpo {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.75rem 0.75rem 0.875rem;
+  }
+
+  .cartao__categoria {
+    font-stretch: 85%;
+    font-weight: 750;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .cartao__titulo {
+    font-size: clamp(1rem, 0.9rem + 0.5vw, 1.3rem);
+    line-height: 1;
+  }
+
+  .cartao__link {
+    text-decoration: none;
+  }
+  /* Link "esticado": o cartão inteiro é clicável */
+  .cartao__link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+  }
+
+  .cartao__descricao {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: var(--text-sm);
+    line-height: 1.35;
+    opacity: 0.9;
+  }
+
+  .cartao__rodape {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+  }
+
+  .cartao__seta {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    transition: transform 0.2s;
+  }
+  .cartao:hover .cartao__seta {
+    transform: translateX(3px);
+  }
+
+  @media (width < 30rem) {
+    .cartao__descricao {
+      display: none;
+    }
+    .cartao__seta {
+      display: none;
+    }
+  }
+</style>

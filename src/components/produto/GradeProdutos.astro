@@ -1,0 +1,37 @@
+---
+import CartaoPlaca from './CartaoPlaca.astro';
+import type { Categoria, Produto } from '../../lib/catalogo/schema';
+
+interface Props {
+  id: string;
+  produtos: Produto[];
+  categorias: Map<string, Categoria>;
+  /** Rótulo acessível da lista. */
+  rotulo: string;
+  /** Quantos cartões carregam com prioridade (primeira dobra). */
+  prioritarios?: number;
+  /** Nível do título de cada cartão (h2 logo abaixo do h1 da página). */
+  nivelTitulo?: 'h2' | 'h3';
+}
+
+const { id, produtos, categorias, rotulo, prioritarios = 2, nivelTitulo = 'h2' } = Astro.props;
+---
+
+<ul id={id} class="grade-produtos" aria-label={rotulo}>
+  {produtos.map((produto, i) => {
+    const categoria = categorias.get(produto.categoria);
+    return (
+      categoria && (
+        <li>
+          <CartaoPlaca
+            produto={produto}
+            categoria={categoria}
+            posicao={i}
+            prioridade={i < prioritarios}
+            nivelTitulo={nivelTitulo}
+          />
+        </li>
+      )
+    );
+  })}
+</ul>
