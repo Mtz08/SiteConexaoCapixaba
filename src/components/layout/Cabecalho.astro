@@ -50,6 +50,9 @@ const caminho = Astro.url.pathname;
     </div>
   </div>
 
+  <!-- Faixa central tracejada que "anda" conforme a rolagem (CSS puro; some onde não há suporte) -->
+  <div class="progresso-rolagem" aria-hidden="true"></div>
+
   <nav id="menu-mobile" popover class="menu-mobile" aria-label="Menu">
     <div class="container-site flex items-center justify-between py-3">
       <span class="titulo-placa text-sm tracking-[0.2em] text-texto-mudo">Menu</span>
@@ -94,6 +97,38 @@ const caminho = Astro.url.pathname;
     backdrop-filter: blur(12px) saturate(140%);
     -webkit-backdrop-filter: blur(12px) saturate(140%);
     border-bottom: 1px solid var(--faixa);
+  }
+
+  .progresso-rolagem {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 3px;
+    background-image: repeating-linear-gradient(
+      90deg,
+      var(--placa-amarela) 0 1.5rem,
+      transparent 1.5rem 2.5rem
+    );
+    transform-origin: left center;
+    transform: scaleX(0);
+    pointer-events: none;
+  }
+  @supports (animation-timeline: scroll()) {
+    .progresso-rolagem {
+      animation: progresso-rolagem linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+  @supports not (animation-timeline: scroll()) {
+    .progresso-rolagem {
+      display: none;
+    }
+  }
+  @keyframes progresso-rolagem {
+    to {
+      transform: scaleX(1);
+    }
   }
 
   .link-nav {

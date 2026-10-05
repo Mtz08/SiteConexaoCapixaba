@@ -29,11 +29,19 @@ export const navegacaoInstitucional: LinkNavegacao[] = [
   { href: '/carrinho', rotulo: 'Carrinho' },
 ];
 
-/** Compara caminhos ignorando barra final e .html. */
+/**
+ * Caminho limpo e canônico: sem .html, sem barra final, e /index vira /.
+ * (Com build.format 'file', a página inicial é servida como /index.html.)
+ */
+export function caminhoLimpo(caminho: string): string {
+  const semHtml = caminho.replace(/\.html$/, '').replace(/(^|\/)index$/, '$1');
+  return semHtml.replace(/\/+$/, '') || '/';
+}
+
+/** Compara caminhos ignorando barra final, .html e /index. */
 export function ehPaginaAtual(href: string, caminhoAtual: string, prefixo = false): boolean {
-  const normalizar = (c: string) => c.replace(/\.html$/, '').replace(/\/+$/, '') || '/';
-  const atual = normalizar(caminhoAtual);
-  const alvo = normalizar(href);
+  const atual = caminhoLimpo(caminhoAtual);
+  const alvo = caminhoLimpo(href);
   if (alvo === '/') return atual === '/';
   return prefixo ? atual === alvo || atual.startsWith(`${alvo}/`) : atual === alvo;
 }

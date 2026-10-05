@@ -8,7 +8,10 @@ import { PlaceholderPlaca } from '../../components/produto/PlaceholderPlaca';
 import Galeria from '../../components/islands/Galeria';
 import PainelProduto from '../../components/islands/PainelProduto';
 import { listarProdutos, mapaCategorias, tabelaDeMedidas } from '../../lib/catalogo/consultas';
-import { fotosDoProduto } from '../../lib/catalogo/fotos';
+import { fotoPrincipal, fotosDoProduto } from '../../lib/catalogo/fotos';
+import { getImage } from 'astro:assets';
+import JsonLd from '../../components/seo/JsonLd.astro';
+import { produto as produtoLd } from '../../lib/seo/jsonld';
 import { fotosParaGaleria } from '../../lib/catalogo/galeria';
 import { escolherRelacionados } from '../../lib/catalogo/relacionados';
 import type { Produto } from '../../lib/catalogo/schema';
@@ -32,7 +35,25 @@ if (!categoria)
 
 const temTamanho = produto.opcoes.some((o) => o.nome === 'Tamanho');
 const medidas = temTamanho ? await tabelaDeMedidas(produto.categoria) : undefined;
-const fotos = await fotosParaGaleria(fotosDoProduto(produto));
+const fotosResolvidas = fotosDoProduto(produto);
+const fotos = await fotosParaGaleria(fotosResolvidas);
+// Open Graph (WhatsApp, Facebook…): foto principal em JPG 1200×630; sem foto, a imagem padrão.
+const principal = fotoPrincipal(fotosResolvidas);
+const og = principal
+  ? await getImage({
+      src: principal.imagem,
+      width: 1200,
+      height: 630,
+      fit: 'cover',
+      format: 'jpg',
+      quality: 80,
+    })
+  : undefined;
+const imagensLd = await Promise.all(
+  fotosResolvidas
+    .slice(0, 4)
+    .map(async (f) => (await getImage({ src: f.imagem, width: 1200, format: 'jpg', quality: 80 })).src),
+);
 const relacionados = escolherRelacionados(produto, todos);
 
 const dadosPainel = {
@@ -54,7 +75,24 @@ const dadosPainel = {
   titulo={produto.nome}
   descricao={`${produto.descricaoCurta} ${site.nome}: enviamos para todo o Brasil.`}
   tipo="product"
+  imagem={og?.src}
+  imagemAlt={principal?.alt}
 >
+  <JsonLd
+    dados={produtoLd(
+      {
+        id: produto.id,
+        slug: produto.slug,
+        nome: produto.nome,
+        descricao: produto.descricao,
+        categoria: categoria.nome,
+        precoBase: produto.precoBase,
+        opcoes: produto.opcoes,
+        variacoes: produto.variacoes,
+      },
+      imagensLd,
+    )}
+  />
   <div class="container-site pt-4">
     <Breadcrumbs
       itens={[

@@ -1,7 +1,12 @@
 ---
+import JsonLd from '../seo/JsonLd.astro';
+import { trilha as trilhaLd } from '../../lib/seo/jsonld';
+import { caminhoLimpo } from '../../config/navegacao';
+import { site } from '../../config/site';
+
 /**
  * Trilha de navegação ("Início › Loja › Camisetas"). O último item é a página atual.
- * O JSON-LD BreadcrumbList é adicionado na fase de SEO.
+ * Também gera o JSON-LD BreadcrumbList.
  */
 export interface ItemTrilha {
   rotulo: string;
@@ -14,6 +19,7 @@ interface Props {
 
 const { itens } = Astro.props;
 const trilha: ItemTrilha[] = [{ rotulo: 'Início', href: '/' }, ...itens];
+const urlAtual = new URL(caminhoLimpo(Astro.url.pathname), Astro.site ?? site.url).href;
 ---
 
 <nav aria-label="Você está em" class="trilha">
@@ -32,6 +38,7 @@ const trilha: ItemTrilha[] = [{ rotulo: 'Início', href: '/' }, ...itens];
     })}
   </ol>
 </nav>
+<JsonLd dados={trilhaLd(trilha, urlAtual)} />
 
 <style>
   .trilha ol {

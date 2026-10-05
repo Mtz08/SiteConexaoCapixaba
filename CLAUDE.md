@@ -20,15 +20,17 @@ Todo texto do site e da documentação em **português do Brasil**.
 
 ## Comandos
 
-| Comando           | O que faz                                          |
-| ----------------- | -------------------------------------------------- |
-| `npm run dev`     | Servidor local em http://localhost:4321            |
-| `npm run build`   | Gera `dist/`                                       |
-| `npm run preview` | Serve o `dist/` (CSP só funciona aqui, não no dev) |
-| `npm run check`   | Checagem de tipos (`astro check`)                  |
-| `npm run lint`    | ESLint                                             |
-| `npm run format`  | Prettier                                           |
-| `npm test`        | Vitest                                             |
+| Comando           | O que faz                                                                          |
+| ----------------- | ---------------------------------------------------------------------------------- |
+| `npm run dev`     | Servidor local em http://localhost:4321                                            |
+| `npm run build`   | Gera `dist/`                                                                       |
+| `npm run preview` | Serve o `dist/` (CSP só funciona aqui, não no dev)                                 |
+| `npm run check`   | Checagem de tipos (`astro check`)                                                  |
+| `npm run lint`    | ESLint                                                                             |
+| `npm run format`  | Prettier                                                                           |
+| `npm test`        | Vitest                                                                             |
+| `npm run fotos`   | Processa `fotos-brutas/` (`-- --verificar` só simula)                              |
+| `npm run icones`  | Gera favicon, ícones do app e `og-padrao.png` em `public/` (usa o logo se existir) |
 
 **Antes de concluir qualquer tarefa:** `npm run build`, `npm run check`, `npm run lint` e
 `npm test` precisam passar sem erro nem aviso (o único aviso aceito é o do número de WhatsApp

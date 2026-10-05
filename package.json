@@ -16,7 +16,8 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "fotos": "node scripts/processar-fotos.mjs"
+    "fotos": "node scripts/processar-fotos.mjs",
+    "icones": "node scripts/gerar-icones.mjs"
   },
   "dependencies": {
     "@astrojs/preact": "6.0.5",

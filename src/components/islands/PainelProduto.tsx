@@ -17,6 +17,7 @@ import {
 import { slugificar } from '../../lib/texto';
 import type { Centavos } from '../../lib/dinheiro';
 import { $totalItens, abrirGaveta, adicionarAoCarrinho } from '../../stores/carrinho';
+import { voarParaCarrinho } from '../../lib/animacoes';
 
 export interface ProdutoPainel extends DadosVariacao {
   id: string;
@@ -134,8 +135,9 @@ export default function PainelProduto({ produto, quantidadeMaxima, linkSemJs, an
     evento.currentTarget.href = link;
   };
 
-  const aoAdicionar = () => {
+  const aoAdicionar = (evento: TargetedMouseEvent<HTMLButtonElement>) => {
     if (indisponivel || destacarFaltando()) return;
+    voarParaCarrinho(evento.currentTarget);
     const combinacao = Object.fromEntries(produto.opcoes.map((o) => [o.nome, selecao[o.nome] ?? '']));
     const { limitada } = adicionarAoCarrinho({
       produtoId: produto.id,

@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import CabecalhoPagina from '../components/layout/CabecalhoPagina.astro';
 import ListaFaq from '../components/conteudo/ListaFaq.astro';
 import { perguntasFrequentes } from '../data/faq';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { perguntasFrequentes as faqLd } from '../lib/seo/jsonld';
 import { mensagemContato, montarLinkWhatsApp } from '../lib/whatsapp';
 ---
 
@@ -10,6 +12,7 @@ import { mensagemContato, montarLinkWhatsApp } from '../lib/whatsapp';
   titulo="Perguntas frequentes"
   descricao="Pagamento, envio para todo o Brasil, tamanhos, prazo, trocas e pedidos pelo WhatsApp: tire suas dúvidas sobre a Conexão Capixaba."
 >
+  <JsonLd dados={faqLd(perguntasFrequentes)} />
   <CabecalhoPagina
     titulo="Perguntas frequentes"
     sobretitulo="Tire suas dúvidas"

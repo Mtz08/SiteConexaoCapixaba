@@ -11,6 +11,8 @@ import Icone from '../components/icones/Icone.astro';
 import { listarCategorias, listarDestaques, listarProdutos, mapaCategorias } from '../lib/catalogo/consultas';
 import { perguntasFrequentes } from '../data/faq';
 import { site } from '../config/site';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { organizacao, siteWeb } from '../lib/seo/jsonld';
 
 const [produtos, categorias, destaques, porId] = await Promise.all([
   listarProdutos(),
@@ -25,6 +27,7 @@ const faqResumo = perguntasFrequentes.filter((p) => p.destaque).slice(0, 4);
 ---
 
 <Base descricao={site.descricao}>
+  <JsonLd dados={[organizacao(), siteWeb()]} />
   <Hero />
   <FaixaBeneficios />
 

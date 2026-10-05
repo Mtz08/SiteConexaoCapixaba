@@ -22,7 +22,8 @@ export default defineConfig({
     verificarWhatsapp(permitirNumeroFicticio),
     preact(),
     sitemap({
-      filter: (pagina) => !pagina.includes('/404'),
+      // Fora do sitemap: 404 e carrinho (noindex).
+      filter: (pagina) => !/\/(404|carrinho)\/?$/.test(pagina),
     }),
   ],
   security: {

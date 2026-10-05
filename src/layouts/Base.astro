@@ -24,6 +24,9 @@ const seo = Astro.props;
     <meta name="format-detection" content="telephone=no" />
     <link rel="preload" href={fonteArchivo} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     <meta name="application-name" content={site.nome} />
     <Seo {...seo} />

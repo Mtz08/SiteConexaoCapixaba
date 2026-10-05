@@ -383,3 +383,22 @@
     pointer-events: none;
   }
 }
+
+@layer components {
+  /* "+1" voando até o carrinho */
+  .voo-carrinho {
+    position: fixed;
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background-color: var(--placa-amarela);
+    color: var(--asfalto);
+    font-weight: 900;
+    font-size: 0.95rem;
+    box-shadow: 0 8px 20px -6px rgb(0 0 0 / 0.6);
+    pointer-events: none;
+  }
+}
