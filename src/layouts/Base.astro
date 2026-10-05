@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import fonteArchivo from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import fonteArchivo from '../assets/fontes/archivo-subset.woff2?url';
 import Seo, { type SeoProps } from '../components/seo/Seo.astro';
 import Cabecalho from '../components/layout/Cabecalho.astro';
 import Rodape from '../components/layout/Rodape.astro';
@@ -45,7 +45,9 @@ const seo = Astro.props;
 
     <Rodape />
 
-    <WhatsAppFlutuante client:idle link={montarLinkWhatsApp(mensagemContato)} />
+    <aside aria-label="Atendimento pelo WhatsApp">
+      <WhatsAppFlutuante client:idle link={montarLinkWhatsApp(mensagemContato)} />
+    </aside>
     <GavetaCarrinho client:idle />
     <slot name="fim" />
   </body>

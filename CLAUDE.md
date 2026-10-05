@@ -41,6 +41,9 @@ de exemplo, enquanto ele não for trocado).
 - `src/config/site.ts` — **único lugar** com dados da loja (WhatsApp, Instagram, horário, URL)
 - `src/config/navegacao.ts` — links do menu e do rodapé
 - `src/styles/global.css` — tokens de cor, tipografia, utilitários de marca
+- `src/assets/fontes/archivo-subset.woff2` — fonte gerada por `npm run fonte` (pt-BR, largura 62–100%,
+  peso 400–900). Usar `font-stretch`/`font-weight` **dentro dessas faixas**; fora delas, rode o
+  script com novas faixas
 - `src/components/marca/Logo.astro` — **único lugar** do logotipo
 - `src/components/icones/Icone.astro` — ícones SVG próprios
 - `src/layouts/Base.astro` — HTML base, fonte, SEO, cabeçalho e rodapé
@@ -89,16 +92,17 @@ de exemplo, enquanto ele não for trocado).
    acontece no schema. Formatar só na exibição, com `Intl.NumberFormat('pt-BR', BRL)`.
 3. **Sem `style="..."` inline e sem `define:vars`**: a CSP (hashes gerados pelo Astro) bloqueia.
    Cor de categoria vai por `data-cor="azul|vermelha|verde|amarela|branca"`.
-4. **Nenhuma chamada a terceiros no carregamento** (sem Google Fonts, pixels, embeds, CDNs).
+4. **Texto sobre cor de placa sem `opacity`** (derruba o contraste). Hierarquia com tamanho e peso.
+5. **Nenhuma chamada a terceiros no carregamento** (sem Google Fonts, pixels, embeds, CDNs).
    Fontes e scripts auto-hospedados. Sem analytics/cookies (ver `docs/`).
-5. **Nenhum dado pessoal vai para servidor.** Nome/cidade opcionais ficam só no localStorage
+6. **Nenhum dado pessoal vai para servidor.** Nome/cidade opcionais ficam só no localStorage
    e na mensagem que o próprio cliente envia.
-6. **Contraste WCAG AA** — consultar `docs/CORES.md` antes de combinar cores. Vermelho como
+7. **Contraste WCAG AA** — consultar `docs/CORES.md` antes de combinar cores. Vermelho como
    texto usa `--placa-pare-claro`; texto sobre o verde WhatsApp é escuro (`--whatsapp-tx`).
-7. Foco visível nunca é removido. Alvos de toque ≥ 44×44 px (`alvo-toque`).
-8. Respeitar `prefers-reduced-motion`.
-9. Fato não confirmado pela loja (ano de fundação, tecido, prazos…) fica marcado com `TODO`.
-   No JSON, que não aceita comentário, use o campo `_notas`.
+8. Foco visível nunca é removido. Alvos de toque ≥ 44×44 px (`alvo-toque`).
+9. Respeitar `prefers-reduced-motion`.
+10. Fato não confirmado pela loja (ano de fundação, tecido, prazos…) fica marcado com `TODO`.
+    No JSON, que não aceita comentário, use o campo `_notas`.
 
 ## Convenções de código
 

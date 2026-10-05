@@ -1,9 +1,18 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/archivo/wdth.css';
 @import './ui.css';
 @import './produto.css';
 @import './produto-pagina.css';
 @import './carrinho.css';
+
+/* Archivo variável, subconjunto gerado por `npm run fonte` (pt-BR; largura 62–100%, peso 400–900). */
+@font-face {
+  font-family: 'Archivo Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 900;
+  font-stretch: 62% 100%;
+  src: url('../assets/fontes/archivo-subset.woff2') format('woff2-variations');
+}
 
 /* ==========================================================================
    Tokens — "Sinalização de rodovia à noite"

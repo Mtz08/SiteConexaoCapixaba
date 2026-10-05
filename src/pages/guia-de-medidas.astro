@@ -25,7 +25,14 @@ const tabelas = await listarTabelasDeMedidas();
 
   <div class="container-site grid grid-cols-1 gap-14 lg:grid-cols-2">
     {tabelas.map((tabela, i) => (
-      <section id={tabela.id} class="scroll-mt-24">
+      <section
+        id={tabela.id}
+        class="flex scroll-mt-24 flex-col gap-4"
+        aria-labelledby={`titulo-${tabela.id}`}
+      >
+        <h2 id={`titulo-${tabela.id}`} class="text-3xl">
+          {tabela.nome}
+        </h2>
         <TabelaMedidas tabela={tabela} comDicas={i === 0} />
       </section>
     ))}

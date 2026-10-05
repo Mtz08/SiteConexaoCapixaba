@@ -17,7 +17,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "fotos": "node scripts/processar-fotos.mjs",
-    "icones": "node scripts/gerar-icones.mjs"
+    "icones": "node scripts/gerar-icones.mjs",
+    "fonte": "node scripts/gerar-fonte.mjs"
   },
   "dependencies": {
     "@astrojs/preact": "6.0.5",
@@ -41,6 +42,7 @@
     "prettier": "3.9.9",
     "prettier-plugin-astro": "1.1.0",
     "sharp": "0.35.5",
+    "subset-font": "2.9.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.71.0",
     "vitest": "5.0.3"

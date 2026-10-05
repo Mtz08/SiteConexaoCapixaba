@@ -3,11 +3,14 @@ import type { TabelaMedidas } from '../../lib/catalogo/schema';
 
 interface Props {
   tabela: TabelaMedidas;
+  /** Nível do título "Como medir" (h3 dentro de uma seção com h2). */
+  nivelDicas?: 'h2' | 'h3';
   /** Mostra as dicas de como medir (padrão: sim). */
   comDicas?: boolean;
 }
 
-const { tabela, comDicas = true } = Astro.props;
+const { tabela, comDicas = true, nivelDicas = 'h3' } = Astro.props;
+const TituloDicas = nivelDicas;
 const dicasPadrao = [
   'Pegue uma peça sua que veste bem e estique numa mesa.',
   'Largura: meça de uma axila à outra, em linha reta.',
@@ -24,7 +27,7 @@ const dicas = tabela.comoMedir.length > 0 ? tabela.comoMedir : dicasPadrao;
       WhatsApp.
     </p>
   )}
-  <div class="overflow-x-auto">
+  <div class="overflow-x-auto" tabindex="0" role="region" aria-label={`Tabela de medidas: ${tabela.nome}`}>
     <table class="tabela-medidas">
       <caption>{tabela.nome}</caption>
       <thead>
@@ -49,7 +52,7 @@ const dicas = tabela.comoMedir.length > 0 ? tabela.comoMedir : dicasPadrao;
   </div>
   {comDicas && (
     <div>
-      <h3 class="mb-2 text-lg">Como medir</h3>
+      <TituloDicas class="mb-2 text-lg">Como medir</TituloDicas>
       <ol class="flex list-decimal flex-col gap-1 pl-5 text-texto-mudo">
         {dicas.map((dica) => (
           <li>{dica}</li>
