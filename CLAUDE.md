@@ -73,6 +73,13 @@ de exemplo, enquanto ele não for trocado).
 - `docs/` — guias para quem edita o site (`CORES.md`, `COMO-EDITAR-PRODUTOS.md`)
 - `fotos-brutas/` — fotos originais (fora do git); processadas por `npm run fotos`
 
+## Comandos do Claude Code
+
+- `/fotos` (`.claude/commands/fotos.md`): lista `fotos-brutas/`, olha as imagens com nome fora da
+  convenção, propõe nomes e **pede confirmação**, roda `npm run fotos` e o build, e relata.
+- `/novo-produto` (`.claude/commands/novo-produto.md`): pergunta os dados, gera `id`/`slug`, grava no
+  `produtos.json` após confirmação e valida com o build.
+
 ## Regras invioláveis
 
 1. **Verde WhatsApp (`--whatsapp`) só em botões/links que levam ao WhatsApp.** Nunca em outro lugar.
