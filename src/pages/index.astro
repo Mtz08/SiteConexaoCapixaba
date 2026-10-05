@@ -1,0 +1,16 @@
+---
+// Página inicial — versão provisória da fase 1. A home completa entra na fase 6.
+import Base from '../layouts/Base.astro';
+import { site } from '../config/site';
+---
+
+<Base>
+  <section class="container-site py-20 md:py-32">
+    <p class="titulo-placa mb-4 text-sm tracking-[0.25em] text-amarela">Direto do Espírito Santo</p>
+    <h1 class="titulo-placa text-6xl">{site.slogan}</h1>
+    <p class="mt-6 max-w-xl text-lg text-texto-mudo">
+      Camisas polo, camisetas, moletons, adesivos e bonés direto do Espírito Santo. Enviamos para todo o
+      Brasil.
+    </p>
+  </section>
+</Base>

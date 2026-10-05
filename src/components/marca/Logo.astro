@@ -1,0 +1,47 @@
+---
+/**
+ * Logotipo da Conexão Capixaba — ÚNICO lugar para trocar a marca.
+ * Hoje é tipográfico. Quando o arquivo existir em src/assets/marca/,
+ * troque o conteúdo deste componente por <Image src={logo} ... />.
+ */
+interface Props {
+  tamanho?: 'md' | 'lg';
+  class?: string;
+}
+
+const { tamanho = 'md', class: classe } = Astro.props;
+---
+
+<span class:list={['logo', `logo--${tamanho}`, classe]}>
+  <span class="logo__linha1">Conexão</span>
+  <span class="logo__linha2">Capixaba</span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 0.82;
+    text-transform: uppercase;
+    font-stretch: 62%;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    color: var(--texto);
+  }
+  .logo__linha1 {
+    font-size: 0.72em;
+    letter-spacing: 0.19em;
+    color: var(--placa-amarela);
+    font-stretch: 85%;
+    font-weight: 800;
+  }
+  .logo__linha2 {
+    font-size: 1em;
+  }
+  .logo--md {
+    font-size: 1.6rem;
+  }
+  .logo--lg {
+    font-size: 2.6rem;
+  }
+</style>

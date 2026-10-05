@@ -1,0 +1,233 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/archivo/wdth.css';
+
+/* ==========================================================================
+   Tokens — "Sinalização de rodovia à noite"
+   Contraste validado (WCAG AA) — ver docs/CORES.md
+   ========================================================================== */
+:root {
+  --asfalto: #0d1117; /* fundo principal */
+  --asfalto-2: #161c25; /* cartões / superfícies */
+  --asfalto-3: #1d2530; /* superfície elevada (hover, gaveta) */
+  --faixa: #2a3340; /* bordas, divisórias */
+  --faixa-2: #3a4554; /* bordas em destaque (decorativas) */
+  --borda-controle: #64707f; /* borda de campos e controles — 3,4:1 (WCAG 1.4.11) */
+  --texto: #f2efe6; /* texto principal (branco-giz) */
+  --texto-mudo: #9aa4b0; /* texto secundário */
+
+  --placa-pare: #e0262b; /* vermelho de destaque — texto branco 4,7:1 */
+  --placa-pare-2: #c0392b; /* hover do vermelho */
+  --placa-pare-claro: #ff5a5f; /* vermelho para TEXTO sobre fundo escuro — 5,1:1 a 6,2:1 */
+  --placa-verde: #23803f; /* direção — escurecido de #2e9e4f para texto branco 5,0:1 */
+  --placa-verde-2: #1c6c35;
+  --placa-azul: #1f4fbf; /* serviço — texto branco 7,2:1 */
+  --placa-azul-2: #1a43a3;
+  --placa-amarela: #f5b700; /* advertência, selos, "novo" — texto asfalto 10:1 */
+  --placa-amarela-2: #d9a200;
+  --placa-branca: #e9e7e0; /* refletivo (adesivos) — texto asfalto 15:1 */
+  --placa-branca-2: #d4d1c7;
+
+  /* EXCLUSIVO para ações de WhatsApp. Texto escuro: 6,2:1 */
+  --whatsapp: #1faa59;
+  --whatsapp-2: #23bf64;
+  --whatsapp-tx: #0d1117;
+
+  --raio-placa: 0.875rem;
+  --raio: 0.625rem;
+  --sombra-placa: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 12px 32px -12px rgb(0 0 0 / 0.6);
+
+  --largura-max: 80rem;
+  --altura-cabecalho: 4rem;
+
+  color-scheme: dark;
+}
+
+/* Cor da placa por categoria: use data-cor="azul" etc. (sem style inline, por causa da CSP) */
+[data-cor='vermelha'] {
+  --cor-placa: var(--placa-pare);
+  --cor-placa-2: var(--placa-pare-2);
+  --cor-placa-tx: #ffffff;
+}
+[data-cor='verde'] {
+  --cor-placa: var(--placa-verde);
+  --cor-placa-2: var(--placa-verde-2);
+  --cor-placa-tx: #ffffff;
+}
+[data-cor='azul'] {
+  --cor-placa: var(--placa-azul);
+  --cor-placa-2: var(--placa-azul-2);
+  --cor-placa-tx: #ffffff;
+}
+[data-cor='amarela'] {
+  --cor-placa: var(--placa-amarela);
+  --cor-placa-2: var(--placa-amarela-2);
+  --cor-placa-tx: var(--asfalto);
+}
+[data-cor='branca'] {
+  --cor-placa: var(--placa-branca);
+  --cor-placa-2: var(--placa-branca-2);
+  --cor-placa-tx: var(--asfalto);
+}
+
+@theme inline {
+  --color-asfalto: var(--asfalto);
+  --color-asfalto-2: var(--asfalto-2);
+  --color-asfalto-3: var(--asfalto-3);
+  --color-faixa: var(--faixa);
+  --color-faixa-2: var(--faixa-2);
+  --color-texto: var(--texto);
+  --color-texto-mudo: var(--texto-mudo);
+  --color-pare: var(--placa-pare);
+  --color-pare-2: var(--placa-pare-2);
+  --color-pare-claro: var(--placa-pare-claro);
+  --color-borda-controle: var(--borda-controle);
+  --color-verde: var(--placa-verde);
+  --color-azul: var(--placa-azul);
+  --color-amarela: var(--placa-amarela);
+  --color-branca: var(--placa-branca);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-2: var(--whatsapp-2);
+  --color-whatsapp-tx: var(--whatsapp-tx);
+  --color-placa: var(--cor-placa);
+  --color-placa-2: var(--cor-placa-2);
+  --color-placa-tx: var(--cor-placa-tx);
+
+  --font-sans: 'Archivo Variable', 'Archivo', ui-sans-serif, system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
+
+  /* Escala fluida (320px → 1440px) */
+  --text-xs: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);
+  --text-sm: clamp(0.875rem, 0.85rem + 0.12vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.08rem + 0.22vw, 1.25rem);
+  --text-xl: clamp(1.25rem, 1.17rem + 0.4vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.36rem + 0.7vw, 2rem);
+  --text-3xl: clamp(1.875rem, 1.6rem + 1.35vw, 2.75rem);
+  --text-4xl: clamp(2.25rem, 1.8rem + 2.25vw, 3.75rem);
+  --text-5xl: clamp(2.75rem, 1.9rem + 4.2vw, 5.75rem);
+  /* 6xl cabe "EXTRAORDINÁRIO" (titulo-placa) em 320px: ~7,2em de largura */
+  --text-6xl: clamp(2.25rem, 0.6rem + 8.6vw, 8.5rem);
+
+  --radius-placa: var(--raio-placa);
+  --shadow-placa: var(--sombra-placa);
+  --container-site: var(--largura-max);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--altura-cabecalho) + 1rem);
+  }
+
+  body {
+    background-color: var(--asfalto);
+    color: var(--texto);
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-stretch: 100%;
+    font-weight: 420;
+    line-height: 1.6;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-stretch: 72%;
+    font-weight: 850;
+    line-height: 0.95;
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-underline-offset: 0.2em;
+  }
+
+  ::selection {
+    background-color: var(--placa-amarela);
+    color: var(--asfalto);
+  }
+
+  /* Foco visível bem desenhado — nunca remover */
+  :focus-visible {
+    outline: 3px solid var(--placa-amarela);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Utilitários de marca
+   ========================================================================== */
+@utility titulo-placa {
+  font-stretch: 70%;
+  font-weight: 880;
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+}
+
+@utility condensada {
+  font-stretch: 72%;
+}
+
+@utility numeros {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility container-site {
+  width: 100%;
+  max-width: var(--largura-max);
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility alvo-toque {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
+/* Divisor: faixa central tracejada */
+@utility faixa-central {
+  height: 4px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--placa-amarela) 0 2.5rem,
+    transparent 2.5rem 4.25rem
+  );
+  opacity: 0.85;
+}
+
+/* ==========================================================================
+   Movimento reduzido: desliga animações e transições
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,41 @@
+# Netlify — site estático gerado pelo Astro
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# ---------------------------------------------------------------------------
+# Cabeçalhos de segurança
+# A CSP de script/style com hashes é gerada pelo Astro numa <meta> em cada página
+# (security.csp em astro.config.mjs). As duas políticas valem juntas — o navegador
+# aplica a mais restritiva —, então aqui script-src/style-src ficam abertas a inline
+# e a <meta> restringe aos hashes. Diretivas que não funcionam em <meta>
+# (frame-ancestors) ficam aqui.
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), browsing-topics=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Arquivos com hash no nome: cache longo e imutável
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/favicon.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# A página 404 personalizada (dist/404.html) é servida automaticamente pelo Netlify
+# para qualquer caminho inexistente, com status 404 — não precisa de redirect.

@@ -1,0 +1,90 @@
+---
+/**
+ * Ícones próprios em SVG inline (traço 2px, grade 24×24).
+ * Sempre decorativos (aria-hidden): o texto acessível fica no botão/link.
+ */
+export type NomeIcone =
+  'whatsapp' | 'instagram' | 'caminhao' | 'menu' | 'fechar' | 'seta-direita' | 'relogio' | 'mapa' | 'mao';
+
+interface Props {
+  nome: NomeIcone;
+  tamanho?: number;
+  class?: string;
+}
+
+const { nome, tamanho = 24, class: classe } = Astro.props;
+---
+
+<svg
+  class={classe}
+  width={tamanho}
+  height={tamanho}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {nome === 'whatsapp' && (
+    <>
+      <path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3Z" />
+      <path
+        d="M8.6 8.2c.2-.5.5-.6.8-.6h.6c.2 0 .4.1.5.4l.8 1.9c.1.2 0 .5-.1.6l-.6.7a5.6 5.6 0 0 0 2.6 2.4l.7-.7c.2-.2.4-.2.6-.1l1.9.9c.2.1.3.3.3.5v.6c0 .3-.2.7-.6.9-.6.3-1.4.4-2.3.1a8.5 8.5 0 0 1-5.4-5.3c-.3-.9-.2-1.7.2-2.3Z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </>
+  )}
+  {nome === 'instagram' && (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none" />
+    </>
+  )}
+  {nome === 'caminhao' && (
+    <>
+      <path d="M2 6.5h11.5v9.5H2z" />
+      <path d="M13.5 9.5h4.2l3.3 3.6V16h-7.5" />
+      <circle cx="6" cy="17.5" r="1.9" fill="var(--asfalto, #0d1117)" />
+      <circle cx="17" cy="17.5" r="1.9" fill="var(--asfalto, #0d1117)" />
+    </>
+  )}
+  {nome === 'menu' && (
+    <>
+      <path d="M4 7h16" />
+      <path d="M4 12h16" />
+      <path d="M4 17h10" />
+    </>
+  )}
+  {nome === 'fechar' && (
+    <>
+      <path d="M6 6l12 12" />
+      <path d="M18 6L6 18" />
+    </>
+  )}
+  {nome === 'seta-direita' && <path d="M5 12h14M13 6l6 6-6 6" />}
+  {nome === 'relogio' && (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </>
+  )}
+  {nome === 'mapa' && (
+    <>
+      <path d="M12 21s-6.5-5.8-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.2-6.5 11-6.5 11Z" />
+      <circle cx="12" cy="10" r="2.3" />
+    </>
+  )}
+  {nome === 'mao' && (
+    <>
+      <path d="M7 11V6.5a1.5 1.5 0 0 1 3 0V11" />
+      <path d="M10 10.5V5a1.5 1.5 0 0 1 3 0v5.5" />
+      <path d="M13 10.5V6a1.5 1.5 0 0 1 3 0v6" />
+      <path d="M16 9.5a1.5 1.5 0 0 1 3 0V14a7 7 0 0 1-7 7h-.6a6 6 0 0 1-4.6-2.2L4 15.2a1.5 1.5 0 0 1 2.3-1.9L7 14" />
+    </>
+  )}
+</svg>

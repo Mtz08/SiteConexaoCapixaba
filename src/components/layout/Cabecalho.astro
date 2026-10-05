@@ -1,0 +1,175 @@
+---
+import Logo from '../marca/Logo.astro';
+import Icone from '../icones/Icone.astro';
+import { ehPaginaAtual, navegacaoPrincipal } from '../../config/navegacao';
+import { site } from '../../config/site';
+
+const caminho = Astro.url.pathname;
+---
+
+<header class="cabecalho">
+  <div class="container-site flex h-(--altura-cabecalho) items-center justify-between gap-4">
+    <a href="/" class="alvo-toque flex items-center rounded-md" aria-label={`${site.nome} — página inicial`}>
+      <Logo />
+    </a>
+
+    <nav aria-label="Principal" class="hidden md:block">
+      <ul class="flex items-center gap-1">
+        {navegacaoPrincipal.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="link-nav"
+              aria-current={ehPaginaAtual(link.href, caminho, true) ? 'page' : undefined}
+            >
+              {link.rotulo}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-1">
+      <!-- Sem JS: leva à página do carrinho. Com JS (fase 5): abre a gaveta. -->
+      <a href="/carrinho" class="botao-icone relative" data-abrir-carrinho>
+        <Icone nome="caminhao" tamanho={26} />
+        <span class="sr-only">Carrinho</span>
+        <slot name="contador-carrinho" />
+      </a>
+
+      <button
+        type="button"
+        class="botao-icone botao-menu"
+        popovertarget="menu-mobile"
+        aria-controls="menu-mobile"
+      >
+        <Icone nome="menu" tamanho={26} />
+        <span class="sr-only">Abrir menu</span>
+      </button>
+    </div>
+  </div>
+
+  <nav id="menu-mobile" popover class="menu-mobile" aria-label="Menu">
+    <div class="container-site flex items-center justify-between py-3">
+      <span class="titulo-placa text-sm tracking-[0.2em] text-texto-mudo">Menu</span>
+      <button type="button" class="botao-icone" popovertarget="menu-mobile" popovertargetaction="hide">
+        <Icone nome="fechar" tamanho={26} />
+        <span class="sr-only">Fechar menu</span>
+      </button>
+    </div>
+    <ul class="container-site flex flex-col pb-6">
+      <li>
+        <a href="/" class="link-menu" aria-current={ehPaginaAtual('/', caminho) ? 'page' : undefined}>
+          Início
+        </a>
+      </li>
+      {navegacaoPrincipal.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="link-menu"
+            aria-current={ehPaginaAtual(link.href, caminho, true) ? 'page' : undefined}
+          >
+            {link.rotulo}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a href="/perguntas-frequentes" class="link-menu">
+          Perguntas frequentes
+        </a>
+      </li>
+    </ul>
+    <div class="faixa-central" aria-hidden="true"></div>
+  </nav>
+</header>
+
+<style>
+  .cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background-color: rgb(13 17 23 / 0.88);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    border-bottom: 1px solid var(--faixa);
+  }
+
+  .link-nav {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.875rem;
+    border-radius: var(--raio);
+    font-stretch: 80%;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--texto-mudo);
+    transition:
+      color 0.15s,
+      background-color 0.15s;
+  }
+  .link-nav:hover {
+    color: var(--texto);
+    background-color: var(--asfalto-2);
+  }
+  .link-nav[aria-current='page'] {
+    color: var(--texto);
+    box-shadow: inset 0 -3px 0 var(--placa-amarela);
+  }
+
+  .botao-icone {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--raio);
+    color: var(--texto);
+    transition: background-color 0.15s;
+  }
+  .botao-icone:hover {
+    background-color: var(--asfalto-2);
+  }
+  /* Estilo escopado vence utilitário do Tailwind: esconder aqui, não com md:hidden */
+  @media (width >= 48rem) {
+    .botao-menu,
+    .menu-mobile {
+      display: none;
+    }
+  }
+
+  .menu-mobile {
+    position: fixed;
+    inset: 0 0 auto 0;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid var(--faixa);
+    background-color: var(--asfalto);
+    color: var(--texto);
+    box-shadow: 0 24px 48px -12px rgb(0 0 0 / 0.7);
+  }
+  .menu-mobile::backdrop {
+    background-color: rgb(0 0 0 / 0.55);
+  }
+
+  .link-menu {
+    display: flex;
+    align-items: center;
+    min-height: 3.25rem;
+    border-bottom: 1px solid var(--faixa);
+    font-stretch: 72%;
+    font-weight: 850;
+    font-size: var(--text-2xl);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .link-menu[aria-current='page'] {
+    color: var(--placa-amarela);
+  }
+</style>

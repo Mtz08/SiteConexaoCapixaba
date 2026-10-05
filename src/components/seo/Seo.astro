@@ -1,0 +1,52 @@
+---
+import { site } from '../../config/site';
+
+export interface SeoProps {
+  /** Título da página, sem o nome da loja (ele é acrescentado aqui). */
+  titulo?: string;
+  descricao?: string;
+  /** Caminho ou URL absoluta da imagem Open Graph (1200×630). */
+  imagem?: string;
+  imagemAlt?: string;
+  tipo?: 'website' | 'product' | 'article';
+  /** Não indexar (ex.: carrinho, 404). */
+  noindex?: boolean;
+}
+
+type Props = SeoProps;
+
+const {
+  titulo,
+  descricao = site.descricao,
+  imagem = '/og-padrao.png',
+  imagemAlt = `${site.nome} — ${site.slogan}`,
+  tipo = 'website',
+  noindex = false,
+} = Astro.props;
+
+const tituloCompleto = titulo ? `${titulo} | ${site.nome}` : `${site.nome} | ${site.slogan}`;
+const base = Astro.site ?? new URL(site.url);
+const caminho = Astro.url.pathname.replace(/\.html$/, '').replace(/(.)\/+$/, '$1');
+const canonica = new URL(caminho, base).href;
+const imagemAbsoluta = new URL(imagem, base).href;
+---
+
+<title>{tituloCompleto}</title>
+<meta name="description" content={descricao} />
+<link rel="canonical" href={canonica} />
+{noindex && <meta name="robots" content="noindex, follow" />}
+
+<meta property="og:site_name" content={site.nome} />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:type" content={tipo === 'product' ? 'product' : tipo} />
+<meta property="og:title" content={tituloCompleto} />
+<meta property="og:description" content={descricao} />
+<meta property="og:url" content={canonica} />
+<meta property="og:image" content={imagemAbsoluta} />
+<meta property="og:image:alt" content={imagemAlt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={tituloCompleto} />
+<meta name="twitter:description" content={descricao} />
+<meta name="twitter:image" content={imagemAbsoluta} />
+<meta name="twitter:image:alt" content={imagemAlt} />

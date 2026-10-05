@@ -1,0 +1,163 @@
+---
+import Logo from '../marca/Logo.astro';
+import Icone from '../icones/Icone.astro';
+import { navegacaoAjuda, navegacaoInstitucional } from '../../config/navegacao';
+import { instagramUrl, site } from '../../config/site';
+import { mensagemContato, montarLinkWhatsApp } from '../../lib/whatsapp';
+
+const ano = new Date().getFullYear();
+---
+
+<footer class="rodape mt-24">
+  <div class="faixa-central" aria-hidden="true"></div>
+
+  <div class="container-site grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+    <div class="flex flex-col gap-4">
+      <a href="/" class="self-start rounded-md" aria-label={`${site.nome} — página inicial`}>
+        <Logo tamanho="lg" />
+      </a>
+      <p class="titulo-placa text-xl text-texto">{site.slogan}</p>
+      <p class="selo-es">
+        <Icone nome="mapa" tamanho={18} />
+        Feito no Espírito Santo
+      </p>
+    </div>
+
+    <nav aria-labelledby="rodape-loja">
+      <h2 id="rodape-loja" class="titulo-rodape">
+        A loja
+      </h2>
+      <ul class="lista-rodape">
+        {navegacaoInstitucional.map((link) => (
+          <li>
+            <a href={link.href}>{link.rotulo}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav aria-labelledby="rodape-ajuda">
+      <h2 id="rodape-ajuda" class="titulo-rodape">
+        Ajuda
+      </h2>
+      <ul class="lista-rodape">
+        {navegacaoAjuda.map((link) => (
+          <li>
+            <a href={link.href}>{link.rotulo}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="titulo-rodape">Fale com a gente</h2>
+      <ul class="flex flex-col gap-3">
+        <li>
+          <a
+            href={montarLinkWhatsApp(mensagemContato)}
+            class="botao-whatsapp-rodape"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icone nome="whatsapp" tamanho={22} />
+            Chamar no WhatsApp
+            <span class="sr-only">(abre em nova aba)</span>
+          </a>
+        </li>
+        <li>
+          <a href={instagramUrl} class="link-contato" target="_blank" rel="noopener noreferrer">
+            <Icone nome="instagram" tamanho={20} />@{site.instagram}
+            <span class="sr-only">(Instagram, abre em nova aba)</span>
+          </a>
+        </li>
+        <li class="link-contato text-texto-mudo">
+          <Icone nome="relogio" tamanho={20} />
+          {site.horarioAtendimento}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-faixa">
+    <div class="container-site flex flex-col gap-2 py-6 text-sm text-texto-mudo sm:flex-row sm:items-center sm:justify-between">
+      <p>
+        © {ano} {site.nome}. Todos os direitos reservados.
+      </p>
+      <p>Enviamos para todo o Brasil.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .rodape {
+    background-color: #0a0e13;
+  }
+
+  .titulo-rodape {
+    margin-bottom: 1rem;
+    font-size: var(--text-sm);
+    letter-spacing: 0.18em;
+    color: var(--placa-amarela);
+  }
+
+  .lista-rodape {
+    display: flex;
+    flex-direction: column;
+  }
+  .lista-rodape a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: var(--texto-mudo);
+    text-decoration: none;
+  }
+  .lista-rodape a:hover {
+    color: var(--texto);
+    text-decoration: underline;
+  }
+
+  .selo-es {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    align-self: flex-start;
+    padding: 0.375rem 0.75rem;
+    border: 2px solid var(--placa-branca);
+    border-radius: 0.375rem;
+    font-stretch: 80%;
+    font-weight: 750;
+    font-size: var(--text-sm);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background-color: var(--placa-verde);
+    color: #ffffff;
+  }
+
+  .link-contato {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2.75rem;
+    text-decoration: none;
+  }
+  a.link-contato:hover {
+    text-decoration: underline;
+  }
+
+  .botao-whatsapp-rodape {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 3rem;
+    padding-inline: 1.125rem;
+    border-radius: 999px;
+    font-weight: 750;
+    text-decoration: none;
+    background-color: var(--whatsapp);
+    color: var(--whatsapp-tx);
+    transition: background-color 0.15s;
+  }
+  .botao-whatsapp-rodape:hover {
+    background-color: var(--whatsapp-2);
+  }
+</style>
