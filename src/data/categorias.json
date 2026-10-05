@@ -1,0 +1,47 @@
+[
+  {
+    "id": "polo",
+    "nome": "Camisas Polo",
+    "nomeSingular": "Camisa Polo",
+    "cor": "azul",
+    "icone": "polo",
+    "ordem": 1,
+    "descricao": "Para o dia a dia na estrada e para o encontro de domingo, com a marca Conexão Capixaba."
+  },
+  {
+    "id": "camisetas",
+    "nome": "Camisetas",
+    "nomeSingular": "Camiseta",
+    "cor": "vermelha",
+    "icone": "camiseta",
+    "ordem": 2,
+    "descricao": "Estampas que contam a vida de quem vive a estrada."
+  },
+  {
+    "id": "moletons",
+    "nome": "Moletons",
+    "nomeSingular": "Moletom",
+    "cor": "verde",
+    "icone": "moletom",
+    "ordem": 3,
+    "descricao": "Para as madrugadas frias de viagem."
+  },
+  {
+    "id": "bones",
+    "nome": "Bonés",
+    "nomeSingular": "Boné",
+    "cor": "amarela",
+    "icone": "bone",
+    "ordem": 4,
+    "descricao": "Para o sol da estrada, com a logo da Conexão em destaque."
+  },
+  {
+    "id": "adesivos",
+    "nome": "Adesivos",
+    "nomeSingular": "Adesivo",
+    "cor": "branca",
+    "icone": "adesivo",
+    "ordem": 5,
+    "descricao": "Para levar a Conexão no vidro ou na lataria."
+  }
+]

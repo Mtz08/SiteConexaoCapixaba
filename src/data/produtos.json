@@ -1,0 +1,136 @@
+[
+  {
+    "id": "polo-conexao",
+    "slug": "camisa-polo-conexao-capixaba",
+    "nome": "Camisa Polo Conexão Capixaba",
+    "categoria": "polo",
+    "descricaoCurta": "Acabamento reforçado e a marca bordada no peito.",
+    "descricao": [
+      "A camisa polo oficial da Conexão Capixaba, com acabamento reforçado e a marca bordada no peito.",
+      "Vai bem na boleia, na parada do posto e no encontro com a família. Para quem leva a estrada no peito e o Espírito Santo no coração."
+    ],
+    "precoBase": 129.9,
+    "destaque": true,
+    "ativo": true,
+    "ordem": 1,
+    "opcoes": [
+      { "nome": "Tamanho", "valores": ["P", "M", "G", "GG"] },
+      { "nome": "Cor", "valores": ["Preta", "Branca"] }
+    ],
+    "variacoes": [
+      {
+        "combinacao": { "Tamanho": "GG" },
+        "preco": 139.9,
+        "_notas": "EXEMPLO: GG custa mais, em qualquer cor. Ajustar ou apagar."
+      },
+      {
+        "combinacao": { "Tamanho": "P", "Cor": "Branca" },
+        "disponivel": false,
+        "_notas": "EXEMPLO: P Branca esgotada. Ajustar ou apagar."
+      }
+    ],
+    "fotos": [],
+    "cuidados": [],
+    "tags": ["polo", "bordada", "caminhoneiro"],
+    "_notas": ["TODO: confirmar cores (Preta, Branca)", "TODO: tecido/composição e cuidados de lavagem"]
+  },
+  {
+    "id": "camiseta-rei-da-estrada",
+    "slug": "camiseta-rei-da-estrada",
+    "nome": "Camiseta Rei da Estrada",
+    "categoria": "camisetas",
+    "descricaoCurta": "Algodão macio e estampa grande nas costas. Pra quem manda na boleia.",
+    "descricao": [
+      "Camiseta de algodão macio com estampa grande nas costas.",
+      "Feita pra quem manda na boleia e não esconde o orgulho da profissão."
+    ],
+    "precoBase": 79.9,
+    "destaque": true,
+    "ativo": true,
+    "ordem": 2,
+    "opcoes": [{ "nome": "Tamanho", "valores": ["P", "M", "G", "GG"] }],
+    "fotos": [],
+    "cuidados": [],
+    "tags": ["camiseta", "estampa", "caminhoneiro", "rei da estrada"],
+    "_notas": "TODO: cores disponíveis, gramatura e cuidados de lavagem"
+  },
+  {
+    "id": "camiseta-vida-de-caminhoneiro",
+    "slug": "camiseta-vida-de-caminhoneiro",
+    "nome": "Camiseta Vida de Caminhoneiro",
+    "categoria": "camisetas",
+    "descricaoCurta": "Estampa que conta a rotina de quem vive na estrada.",
+    "descricao": [
+      "Uma estampa que conta a rotina de quem vive na estrada: as horas de volante, as paradas e a saudade de casa.",
+      "Para vestir com orgulho ou presentear quem faz o Brasil rodar."
+    ],
+    "precoBase": 79.9,
+    "novo": true,
+    "ativo": true,
+    "ordem": 3,
+    "opcoes": [{ "nome": "Tamanho", "valores": ["P", "M", "G", "GG"] }],
+    "fotos": [],
+    "cuidados": [],
+    "tags": ["camiseta", "estampa", "caminhoneiro", "presente"],
+    "_notas": ["TODO: confirmar se é lançamento (selo NOVO)", "TODO: tecido e cuidados de lavagem"]
+  },
+  {
+    "id": "moletom-conexao",
+    "slug": "moletom-conexao-capixaba",
+    "nome": "Moletom Conexão Capixaba",
+    "categoria": "moletons",
+    "descricaoCurta": "Felpudo por dentro, para as madrugadas frias de viagem.",
+    "descricao": [
+      "Moletom felpudo da Conexão Capixaba, para as madrugadas frias de viagem.",
+      "Companheiro de serra, de pernoite no posto e de inverno no Sul."
+    ],
+    "precoBase": 189.9,
+    "destaque": true,
+    "ativo": true,
+    "ordem": 4,
+    "opcoes": [{ "nome": "Tamanho", "valores": ["P", "M", "G", "GG"] }],
+    "fotos": [],
+    "cuidados": [],
+    "tags": ["moletom", "frio", "inverno"],
+    "_notas": "TODO: modelo (com ou sem capuz/zíper), cores, tecido e cuidados"
+  },
+  {
+    "id": "adesivo-conexao",
+    "slug": "adesivo-conexao-capixaba",
+    "nome": "Adesivo Conexão Capixaba",
+    "categoria": "adesivos",
+    "descricaoCurta": "Resistente ao sol e à chuva, para vidro ou lataria.",
+    "descricao": [
+      "Adesivo da Conexão Capixaba resistente ao sol e à chuva.",
+      "Aplique no vidro ou na lataria e leve a marca por onde o caminhão passar."
+    ],
+    "precoBase": 12.9,
+    "ativo": true,
+    "ordem": 6,
+    "opcoes": [],
+    "fotos": [],
+    "cuidados": [],
+    "tags": ["adesivo", "vidro", "lataria", "caminhão"],
+    "_notas": "TODO: medidas do adesivo e instruções de aplicação"
+  },
+  {
+    "id": "bone-conexao",
+    "slug": "bone-conexao-capixaba",
+    "nome": "Boné Conexão Capixaba",
+    "categoria": "bones",
+    "descricaoCurta": "Ajustável, com a logo da Conexão em destaque.",
+    "descricao": [
+      "Boné ajustável com a logo da Conexão Capixaba em destaque.",
+      "Proteção para o sol da estrada e estilo para qualquer parada."
+    ],
+    "precoBase": 59.9,
+    "destaque": true,
+    "ativo": true,
+    "ordem": 5,
+    "opcoes": [],
+    "fotos": [],
+    "cuidados": [],
+    "tags": ["boné", "sol"],
+    "_notas": "TODO: confirmar tipo de aba, regulagem e cores"
+  }
+]

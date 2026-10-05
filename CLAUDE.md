@@ -43,7 +43,23 @@ de exemplo, enquanto ele não for trocado).
 - `src/components/icones/Icone.astro` — ícones SVG próprios
 - `src/layouts/Base.astro` — HTML base, fonte, SEO, cabeçalho e rodapé
 - `src/lib/` — lógica pura e testada (dinheiro, WhatsApp, carrinho)
-- `src/data/` — `produtos.json`, `categorias.json`, `medidas.json`
+  - `dinheiro.ts` — tipo `Centavos`, conversão e formatação
+  - `catalogo/schema.ts` — schemas Zod (mensagens para quem não programa)
+  - `catalogo/variacoes.ts` — resolução de preço/disponibilidade por combinação
+  - `catalogo/lerJson.ts` + `catalogo/loader.ts` — leitura do JSON com erro amigável
+  - `catalogo/consultas.ts` — **única** porta de acesso ao catálogo nas páginas
+    (filtra `ativo`, ordena). Não use `getCollection` direto
+- `src/content.config.ts` — coleções `produtos` e `categorias`
+- `src/data/` — `produtos.json`, `categorias.json` (e `medidas.json`, fase 4)
+- `docs/COMO-EDITAR-PRODUTOS.md` — guia do catálogo. **Atualize ao mudar o schema**
+
+### Catálogo
+
+- O loader `file()` do Astro só registra erro e segue com a coleção vazia. Por isso usamos
+  `catalogoLoader` (`src/lib/catalogo/loader.ts`), que derruba o build.
+- `variacoes[].combinacao` pode ser parcial (`{ "Tamanho": "GG" }` vale para todas as cores).
+  A mais específica vence, atributo por atributo; empate com valores diferentes é erro.
+- Chave da linha do carrinho: `produto.id` + `chaveCombinacao(opcoes, combinacao)`.
 - `src/integrations/` — integrações do Astro (checagem do número de WhatsApp)
 - `docs/` — guias para quem edita o site (`CORES.md`, `COMO-EDITAR-PRODUTOS.md`)
 - `fotos-brutas/` — fotos originais (fora do git); processadas por `npm run fotos`

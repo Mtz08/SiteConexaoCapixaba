@@ -1,0 +1,9 @@
+{
+  "json.schemas": [
+    { "fileMatch": ["/src/data/produtos.json"], "url": "./.astro/collections/produtos.schema.json" },
+    { "fileMatch": ["/src/data/categorias.json"], "url": "./.astro/collections/categorias.schema.json" }
+  ],
+  "files.associations": { "*.css": "tailwindcss" },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
