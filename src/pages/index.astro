@@ -1,16 +1,240 @@
 ---
-// Página inicial — versão provisória da fase 1. A home completa entra na fase 6.
 import Base from '../layouts/Base.astro';
+import Hero from '../components/conteudo/Hero.astro';
+import FaixaBeneficios from '../components/conteudo/FaixaBeneficios.astro';
+import PlacasCategorias from '../components/conteudo/PlacasCategorias.astro';
+import PassosKm from '../components/conteudo/PassosKm.astro';
+import ChamadaInstagram from '../components/conteudo/ChamadaInstagram.astro';
+import ListaFaq from '../components/conteudo/ListaFaq.astro';
+import GradeProdutos from '../components/produto/GradeProdutos.astro';
+import Icone from '../components/icones/Icone.astro';
+import { listarCategorias, listarDestaques, listarProdutos, mapaCategorias } from '../lib/catalogo/consultas';
+import { perguntasFrequentes } from '../data/faq';
 import { site } from '../config/site';
+
+const [produtos, categorias, destaques, porId] = await Promise.all([
+  listarProdutos(),
+  listarCategorias(),
+  listarDestaques(),
+  mapaCategorias(),
+]);
+const categoriasComQuantidade = categorias
+  .map((c) => ({ ...c, quantidade: produtos.filter((p) => p.categoria === c.id).length }))
+  .filter((c) => c.quantidade > 0);
+const faqResumo = perguntasFrequentes.filter((p) => p.destaque).slice(0, 4);
 ---
 
-<Base>
-  <section class="container-site py-20 md:py-32">
-    <p class="titulo-placa mb-4 text-sm tracking-[0.25em] text-amarela">Direto do Espírito Santo</p>
-    <h1 class="titulo-placa text-6xl">{site.slogan}</h1>
-    <p class="mt-6 max-w-xl text-lg text-texto-mudo">
-      Camisas polo, camisetas, moletons, adesivos e bonés direto do Espírito Santo. Enviamos para todo o
-      Brasil.
-    </p>
+<Base descricao={site.descricao}>
+  <Hero />
+  <FaixaBeneficios />
+
+  <section class="secao container-site" aria-labelledby="titulo-categorias">
+    <div class="secao__topo">
+      <h2 id="titulo-categorias" class="secao__titulo">
+        Escolha sua pista
+      </h2>
+      <a href="/loja" class="secao__link">
+        Ver toda a loja <Icone nome="seta-direita" tamanho={18} />
+      </a>
+    </div>
+    <PlacasCategorias categorias={categoriasComQuantidade} />
+  </section>
+
+  {destaques.length > 0 && (
+    <section class="secao container-site" aria-labelledby="titulo-destaques">
+      <div class="secao__topo">
+        <h2 id="titulo-destaques" class="secao__titulo">
+          Destaques da estrada
+        </h2>
+        <a href="/loja" class="secao__link">
+          Ver todos <Icone nome="seta-direita" tamanho={18} />
+        </a>
+      </div>
+      <GradeProdutos
+        id="grade-destaques"
+        produtos={destaques.slice(0, 8)}
+        categorias={porId}
+        rotulo="Produtos em destaque"
+        prioritarios={0}
+        nivelTitulo="h3"
+      />
+    </section>
+  )}
+
+  <section class="secao secao--faixa" aria-labelledby="titulo-como-comprar">
+    <div class="container-site">
+      <div class="secao__topo">
+        <h2 id="titulo-como-comprar" class="secao__titulo">
+          Como comprar
+        </h2>
+        <a href="/como-comprar" class="secao__link">
+          Passo a passo <Icone nome="seta-direita" tamanho={18} />
+        </a>
+      </div>
+      <PassosKm />
+    </div>
+  </section>
+
+  <section class="secao container-site sobre" aria-labelledby="titulo-sobre">
+    <div class="sobre__texto">
+      <p class="sobre__sobretitulo">Quem somos</p>
+      <h2 id="titulo-sobre" class="secao__titulo">
+        Nascemos na estrada capixaba
+      </h2>
+      <p>
+        Nascemos no Espírito Santo, na cultura de quem vive a estrada. Criamos roupas e acessórios para
+        caminhoneiros, familiares e apaixonados pelo mundo do transporte.
+      </p>
+      <p>
+        Cada peça é feita para quem passa a semana no volante, para quem espera em casa e para quem cresceu
+        ouvindo o ronco do motor. Enviamos para todo o Brasil.
+      </p>
+      <a href="/sobre" class="botao botao--contorno self-start">
+        Conheça a nossa história
+      </a>
+    </div>
+    <div class="sobre__placa" aria-hidden="true">
+      <span class="sobre__placa-topo">Espírito Santo</span>
+      <span class="sobre__placa-texto">{site.slogan}</span>
+      <span class="sobre__placa-seta">→ Todo o Brasil</span>
+    </div>
+  </section>
+
+  <div class="container-site secao">
+    <ChamadaInstagram />
+  </div>
+
+  <section class="secao container-site" aria-labelledby="titulo-faq">
+    <div class="secao__topo">
+      <h2 id="titulo-faq" class="secao__titulo">
+        Perguntas frequentes
+      </h2>
+      <a href="/perguntas-frequentes" class="secao__link">
+        Ver todas <Icone nome="seta-direita" tamanho={18} />
+      </a>
+    </div>
+    <ListaFaq perguntas={faqResumo} />
   </section>
 </Base>
+
+<style>
+  .secao {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    padding-top: 4.5rem;
+  }
+  @media (width >= 64rem) {
+    .secao {
+      padding-top: 6rem;
+    }
+  }
+  .secao--faixa {
+    margin-top: 4.5rem;
+    padding-block: 4rem;
+    border-block: 1px solid var(--faixa);
+    background-color: var(--asfalto-2);
+  }
+  .secao__topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+  .secao--faixa .secao__topo {
+    margin-bottom: 2.5rem;
+  }
+  .secao > .secao__topo {
+    margin-bottom: 0;
+  }
+  .secao__titulo {
+    font-size: var(--text-4xl);
+  }
+  .secao__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 2.75rem;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--placa-amarela);
+  }
+  .secao__link:hover {
+    text-decoration: underline;
+  }
+
+  .sobre {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+  @media (width >= 64rem) {
+    .sobre {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      align-items: center;
+    }
+  }
+  .sobre__texto {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 38rem;
+  }
+  .sobre__texto p:not(.sobre__sobretitulo) {
+    color: var(--texto-mudo);
+    font-size: var(--text-lg);
+  }
+  .sobre__sobretitulo {
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: var(--text-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--placa-amarela);
+  }
+  /* Placa verde de direção, grande */
+  .sobre__placa {
+    position: relative;
+    display: grid;
+    gap: 0.75rem;
+    padding: 2rem 1.75rem;
+    border-radius: var(--raio-placa);
+    background-color: var(--placa-verde);
+    color: #ffffff;
+    box-shadow: var(--sombra-placa);
+    transform: rotate(-1.5deg);
+  }
+  .sobre__placa::before {
+    content: '';
+    position: absolute;
+    inset: 0.5rem;
+    border: 3px solid #ffffff;
+    border-radius: calc(var(--raio-placa) - 0.35rem);
+  }
+  .sobre__placa-topo {
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: var(--text-sm);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .sobre__placa-texto {
+    font-stretch: 62%;
+    font-weight: 900;
+    /* cabe "EXTRAORDINÁRIO" (~6,5em) na placa a partir de 320px */
+    font-size: clamp(2rem, 0.6rem + 7vw, 4.5rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+  .sobre__placa-seta {
+    font-stretch: 80%;
+    font-weight: 800;
+    font-size: var(--text-xl);
+    text-transform: uppercase;
+  }
+</style>

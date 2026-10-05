@@ -182,6 +182,7 @@
      ------------------------------------------------------------------------ */
   .filtro {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
   }
   .filtro__chips ul {
@@ -300,5 +301,58 @@
   }
   .grade-produtos > li > * {
     flex: 1;
+  }
+}
+
+@layer components {
+  /* Texto corrido das páginas institucionais */
+  .prosa {
+    display: grid;
+    gap: 1rem;
+    max-width: 70ch;
+    color: var(--texto-mudo);
+    font-size: var(--text-lg);
+  }
+  .prosa h2 {
+    margin-top: 1.5rem;
+    font-size: var(--text-3xl);
+    color: var(--texto);
+  }
+  .prosa h3 {
+    margin-top: 0.75rem;
+    font-size: var(--text-xl);
+    color: var(--texto);
+  }
+  .prosa strong {
+    color: var(--texto);
+  }
+  .prosa a {
+    color: var(--texto);
+    font-weight: 600;
+  }
+  .prosa a:hover {
+    color: var(--placa-amarela);
+  }
+  .prosa ul,
+  .prosa ol {
+    display: grid;
+    gap: 0.5rem;
+    padding-left: 1.25rem;
+  }
+  .prosa ul {
+    list-style: disc;
+  }
+  .prosa ol {
+    list-style: decimal;
+  }
+  .prosa li::marker {
+    color: var(--placa-amarela);
+  }
+  .aviso-revisao {
+    padding: 0.75rem 1rem;
+    border-left: 4px solid var(--placa-amarela);
+    border-radius: 0.25rem;
+    background-color: var(--asfalto-2);
+    font-size: var(--text-sm);
   }
 }

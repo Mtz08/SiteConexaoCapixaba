@@ -325,6 +325,7 @@ export default function ConteudoCarrinho({ variante, aoNavegar }: Props) {
             target="_blank"
             rel="noopener noreferrer"
             class="botao botao--whatsapp botao--bloco botao--grande"
+            data-esconde-flutuante
             onClick={aoEnviar}
           >
             <svg

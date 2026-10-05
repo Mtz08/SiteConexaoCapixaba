@@ -23,7 +23,7 @@ const tabelas = await listarTabelasDeMedidas();
     </p>
   </CabecalhoPagina>
 
-  <div class="container-site grid gap-14 lg:grid-cols-2">
+  <div class="container-site grid grid-cols-1 gap-14 lg:grid-cols-2">
     {tabelas.map((tabela, i) => (
       <section id={tabela.id} class="scroll-mt-24">
         <TabelaMedidas tabela={tabela} comDicas={i === 0} />

@@ -1,0 +1,96 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/layout/CabecalhoPagina.astro';
+import PassosKm from '../components/conteudo/PassosKm.astro';
+import { site } from '../config/site';
+import { mensagemContato, montarLinkWhatsApp } from '../lib/whatsapp';
+---
+
+<Base
+  titulo="Como comprar"
+  descricao="Escolha o produto, envie o pedido pronto pelo WhatsApp e combine frete e pagamento com a gente. Sem cadastro, sem complicação."
+>
+  <CabecalhoPagina titulo="Como comprar" sobretitulo="Passo a passo" trilha={[{ rotulo: 'Como comprar' }]}>
+    <p class="max-w-2xl text-lg text-texto-mudo">
+      Sem cadastro e sem pagar no site. Você escolhe, a mensagem vai pronta para o nosso WhatsApp e o resto a
+      gente combina com você.
+    </p>
+  </CabecalhoPagina>
+
+  <section class="container-site" aria-label="Os três passos">
+    <PassosKm nivel="h2" />
+  </section>
+
+  <div class="container-site mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2">
+    <section class="prosa" aria-labelledby="titulo-detalhes">
+      <h2 id="titulo-detalhes">Em detalhes</h2>
+      <h3>1. Escolha o produto</h3>
+      <p>
+        Na <a href="/loja">loja</a>, abra o produto e escolha tamanho, cor e quantidade. Opção riscada é
+        porque acabou naquele momento. Na dúvida do tamanho, consulte o{' '}
+        <a href="/guia-de-medidas">guia de medidas</a>.
+      </p>
+      <h3>2. Um item ou vários</h3>
+      <p>
+        Quer só um produto? Toque em <strong>Comprar pelo WhatsApp</strong>.
+      </p>
+      <p>
+        Quer vários? Use <strong>Adicionar ao carrinho</strong> em cada um. No carrinho, toque em{' '}
+        <strong>Enviar pedido pelo WhatsApp</strong>.
+      </p>
+      <p>
+        No carrinho você pode informar seu nome e sua cidade para agilizar o atendimento. É opcional, e esses
+        dados não vão para nenhum servidor: ficam só no seu aparelho e seguem na mensagem que você mesmo
+        envia.
+      </p>
+      <h3>3. Envie a mensagem</h3>
+      <p>
+        O WhatsApp abre com o pedido escrito: produtos, tamanhos, quantidades, total e um código do pedido
+        (por exemplo, <strong class="whitespace-nowrap">CC-7F3K2</strong>). É só tocar em enviar.
+      </p>
+    </section>
+
+    <section class="prosa" aria-labelledby="titulo-whatsapp">
+      <h2 id="titulo-whatsapp">O que acontece no WhatsApp</h2>
+      <ol>
+        <li>A gente confirma se tem o produto no tamanho e na cor que você escolheu.</li>
+        <li>Calculamos o frete para o seu endereço e passamos o valor total.</li>
+        <li>Combinamos a forma de pagamento.</li>
+        <li>Depois do pagamento confirmado, o pedido é separado e enviado.</li>
+      </ol>
+      <!-- TODO: confirmar com a loja — formas de pagamento e prazo de postagem, para detalhar aqui. -->
+      <p>
+        Atendimento: <strong>{site.horarioAtendimento}</strong>.
+      </p>
+
+      <h3>Está no computador sem WhatsApp instalado?</h3>
+      <p>
+        Sem problema. O botão abre o <strong>WhatsApp Web</strong> no navegador. Entre com o seu celular lendo
+        o QR Code que aparece na tela, e a mensagem do pedido já estará pronta para enviar. Se preferir, monte
+        o carrinho direto pelo celular.
+      </p>
+      <h3>A mensagem não abriu?</h3>
+      <p>
+        Alguns navegadores bloqueiam a abertura de nova aba. Tente de novo, ou fale com a gente pelo botão
+        abaixo e diga o que você quer.
+      </p>
+      <p>
+        <a
+          href={montarLinkWhatsApp(mensagemContato)}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="botao botao--whatsapp no-underline"
+        >
+          Falar no WhatsApp
+          <span class="sr-only">(abre em nova aba)</span>
+        </a>
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .prosa .botao {
+    color: var(--whatsapp-tx);
+  }
+</style>

@@ -266,7 +266,7 @@ export default function PainelProduto({ produto, quantidadeMaxima, linkSemJs, an
         </p>
       </div>
 
-      <div class="painel__acoes">
+      <div class="painel__acoes" data-esconde-flutuante>
         <a
           href={linkSemJs}
           target="_blank"

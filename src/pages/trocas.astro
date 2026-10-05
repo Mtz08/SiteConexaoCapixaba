@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/layout/CabecalhoPagina.astro';
+import { mensagemContato, montarLinkWhatsApp } from '../lib/whatsapp';
+---
+
+<Base
+  titulo="Trocas e devoluções"
+  descricao="Como trocar ou devolver um produto da Conexão Capixaba, incluindo o direito de arrependimento de 7 dias previsto no Código de Defesa do Consumidor."
+>
+  <CabecalhoPagina
+    titulo="Trocas e devoluções"
+    sobretitulo="Seus direitos"
+    trilha={[{ rotulo: 'Trocas e devoluções' }]}
+  >
+    <p class="max-w-2xl text-lg text-texto-mudo">
+      Não serviu, mudou de ideia ou chegou com problema? A gente resolve com você pelo WhatsApp.
+    </p>
+  </CabecalhoPagina>
+
+  <div class="container-site">
+    <!--
+      TODO: REVISÃO JURÍDICA OBRIGATÓRIA antes de publicar.
+      Base legal citada: Código de Defesa do Consumidor (Lei nº 8.078/1990), arts. 18, 26 e 49;
+      Decreto nº 7.962/2013 (comércio eletrônico), art. 5º. Confirmar redação, prazos e condições.
+    -->
+    <div class="prosa">
+      <h2>Direito de arrependimento (7 dias)</h2>
+      <p>
+        Como a compra é feita fora de uma loja física (pelo site e pelo WhatsApp), você pode desistir do
+        pedido em até <strong>7 dias</strong> a contar do recebimento do produto, sem precisar explicar o
+        motivo. É o que garante o <strong>art. 49 do Código de Defesa do Consumidor</strong> (Lei nº
+        8.078/1990).
+      </p>
+      <p>
+        Nesse caso, os valores pagos são devolvidos, atualizados, conforme o parágrafo único do mesmo artigo.
+        Para pedir, fale com a gente pelo WhatsApp informando o código do pedido (por exemplo, CC-7F3K2).
+      </p>
+      <!-- TODO: confirmar com a loja como é feito o envio de volta (quem gera a postagem e como). -->
+
+      <h2>Troca por tamanho ou modelo</h2>
+      <p>A peça não serviu? Fale com a gente pelo WhatsApp. Explicamos as condições e combinamos a troca.</p>
+      <!-- TODO: definir a política de troca da loja: prazo, condição da peça (sem uso, com etiqueta), quem paga o frete e quantas trocas por pedido. -->
+      <ul>
+        <li>Guarde a peça sem uso e, se possível, com a etiqueta.</li>
+        <li>Tenha em mãos o código do pedido.</li>
+      </ul>
+
+      <h2>Produto com defeito</h2>
+      <p>
+        Se o produto chegar com defeito ou diferente do pedido, fale com a gente assim que perceber, com fotos
+        do problema. Os prazos e as formas de solução para produtos com vício são os do Código de Defesa do
+        Consumidor (arts. 18 e 26).
+      </p>
+
+      <h2>Como pedir</h2>
+      <ol>
+        <li>Chame a gente no WhatsApp.</li>
+        <li>Informe o código do pedido e o que aconteceu (fotos ajudam).</li>
+        <li>A gente responde com o passo a passo.</li>
+      </ol>
+      <p>
+        <a
+          href={montarLinkWhatsApp(mensagemContato)}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="botao botao--whatsapp no-underline"
+        >
+          Falar sobre troca ou devolução
+          <span class="sr-only">(abre em nova aba)</span>
+        </a>
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .prosa .botao {
+    color: var(--whatsapp-tx);
+  }
+</style>

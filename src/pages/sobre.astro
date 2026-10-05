@@ -1,0 +1,117 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/layout/CabecalhoPagina.astro';
+import ChamadaInstagram from '../components/conteudo/ChamadaInstagram.astro';
+import { site } from '../config/site';
+---
+
+<Base
+  titulo="Sobre"
+  descricao="A Conexão Capixaba nasceu no Espírito Santo, na cultura de quem vive a estrada. Roupas e acessórios para caminhoneiros, famílias e apaixonados pelo transporte."
+>
+  <CabecalhoPagina titulo="Quem vive a estrada" sobretitulo="Sobre a Conexão" trilha={[{ rotulo: 'Sobre' }]}>
+    <p class="max-w-2xl text-xl text-texto">
+      Nascemos no Espírito Santo, na cultura de quem vive a estrada. Criamos roupas e acessórios para
+      caminhoneiros, familiares e apaixonados pelo mundo do transporte. Enviamos para todo o Brasil.
+    </p>
+  </CabecalhoPagina>
+
+  <div class="container-site grid grid-cols-1 gap-14 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+    <div class="prosa">
+      <!-- TODO: confirmar com a loja — ano de fundação, cidade de origem e quem fundou, se quiserem contar. -->
+      <h2>Do Espírito Santo para todas as estradas</h2>
+      <p>
+        A Conexão Capixaba nasceu no Espírito Santo, num lugar onde o caminhão faz parte da paisagem e da
+        família. Muita gente aqui cresceu vendo o pai, o tio ou o avô sair de madrugada e voltar dias depois,
+        com histórias de serra, de posto e de saudade.
+      </p>
+      <p>
+        É dessa cultura que vêm as nossas peças: roupas e acessórios para quem passa a semana no volante, para
+        quem espera em casa e para quem é apaixonado pelo mundo do transporte.
+      </p>
+
+      <h2>O que nos move</h2>
+      <p>
+        <strong>{site.slogan}.</strong> Para quem vive a estrada, cada viagem tem um pouco de extraordinário:
+        o nascer do sol na rodovia, a parada no lugar de sempre, o reencontro na chegada. A gente quer que
+        você vista esse orgulho.
+      </p>
+      <ul>
+        <li>
+          <strong>Orgulho da profissão:</strong> peças feitas para quem faz o Brasil rodar.
+        </li>
+        <li>
+          <strong>Família junto:</strong> roupas para o caminhoneiro e para quem torce por ele em casa.
+        </li>
+        <li>
+          <strong>Raiz capixaba:</strong> marca do Espírito Santo, com envio para todo o país.
+        </li>
+        <li>
+          <strong>Atendimento de gente:</strong> pedido pelo WhatsApp, conversa de verdade, sem robô.
+        </li>
+      </ul>
+
+      <h2>Como a gente trabalha</h2>
+      <p>
+        Aqui não tem cadastro nem checkout complicado. Você escolhe o produto, o pedido vai pronto para o
+        nosso WhatsApp e a gente combina com você disponibilidade, valor, frete e pagamento. Simples como deve
+        ser para quem está na estrada e com internet fraca.
+      </p>
+      <p>
+        <a href="/como-comprar">Veja o passo a passo de como comprar</a>.
+      </p>
+    </div>
+
+    <aside class="self-start" aria-label="Resumo">
+      <div class="placa-sobre">
+        <p class="placa-sobre__topo">Conexão Capixaba</p>
+        <p class="placa-sobre__texto">Feito no Espírito Santo</p>
+        <p class="placa-sobre__seta">Enviamos para todo o Brasil →</p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="container-site mt-20">
+    <ChamadaInstagram />
+  </div>
+</Base>
+
+<style>
+  .placa-sobre {
+    position: relative;
+    display: grid;
+    gap: 0.75rem;
+    padding: 2rem 1.75rem;
+    border-radius: var(--raio-placa);
+    background-color: var(--placa-verde);
+    color: #ffffff;
+    box-shadow: var(--sombra-placa);
+  }
+  .placa-sobre::before {
+    content: '';
+    position: absolute;
+    inset: 0.5rem;
+    border: 3px solid #ffffff;
+    border-radius: calc(var(--raio-placa) - 0.35rem);
+    pointer-events: none;
+  }
+  .placa-sobre__topo {
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: var(--text-sm);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .placa-sobre__texto {
+    font-stretch: 62%;
+    font-weight: 900;
+    font-size: clamp(2.25rem, 1.4rem + 3vw, 3.75rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+  }
+  .placa-sobre__seta {
+    font-stretch: 80%;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+</style>

@@ -109,6 +109,10 @@ de exemplo, enquanto ele não for trocado).
   componente que mostra dado salvo no aparelho usa `useMontado()` (`src/components/carrinho/useMontado.ts`)
   e só renderiza o conteúdo real depois de montar. Sem isso o Preact reaproveita elementos do HTML
   do servidor com as classes erradas.
+- **Espaço antes de tag inline:** o Astro comprime o HTML; texto no fim de uma linha seguido de
+  `<strong>`/`<a>` na linha de baixo pode perder o espaço. Use `{' '}` (o Prettier costuma colocar) e
+  confira o HTML gerado.
+- Elementos que não podem ficar cobertos pelo botão flutuante de WhatsApp levam `data-esconde-flutuante`.
 - Commits semânticos: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`.
 
 ## Testes visuais

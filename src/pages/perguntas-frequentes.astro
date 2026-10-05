@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/layout/CabecalhoPagina.astro';
+import ListaFaq from '../components/conteudo/ListaFaq.astro';
+import { perguntasFrequentes } from '../data/faq';
+import { mensagemContato, montarLinkWhatsApp } from '../lib/whatsapp';
+---
+
+<Base
+  titulo="Perguntas frequentes"
+  descricao="Pagamento, envio para todo o Brasil, tamanhos, prazo, trocas e pedidos pelo WhatsApp: tire suas dúvidas sobre a Conexão Capixaba."
+>
+  <CabecalhoPagina
+    titulo="Perguntas frequentes"
+    sobretitulo="Tire suas dúvidas"
+    trilha={[{ rotulo: 'Perguntas frequentes' }]}
+  >
+    <p class="max-w-2xl text-lg text-texto-mudo">
+      Não achou o que procurava? Chama a gente no WhatsApp: tem gente de verdade do outro lado.
+    </p>
+  </CabecalhoPagina>
+
+  <div class="container-site max-w-4xl">
+    <ListaFaq perguntas={perguntasFrequentes} nivel="h2" />
+    <a
+      href={montarLinkWhatsApp(mensagemContato)}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="botao botao--whatsapp mt-10"
+    >
+      Ainda com dúvida? Fale no WhatsApp
+      <span class="sr-only">(abre em nova aba)</span>
+    </a>
+  </div>
+</Base>

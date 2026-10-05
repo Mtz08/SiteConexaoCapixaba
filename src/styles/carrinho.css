@@ -350,3 +350,36 @@
     min-height: 16rem;
   }
 }
+
+@layer components {
+  /* Botão flutuante de WhatsApp */
+  .whatsapp-flutuante {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    z-index: 30;
+    display: grid;
+    place-items: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    border-radius: 999px;
+    background-color: var(--whatsapp);
+    color: var(--whatsapp-tx);
+    box-shadow:
+      0 0 0 3px var(--asfalto),
+      0 10px 28px -6px rgb(0 0 0 / 0.7);
+    transition:
+      transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+      opacity 0.2s,
+      background-color 0.15s;
+  }
+  .whatsapp-flutuante:hover {
+    background-color: var(--whatsapp-2);
+    transform: scale(1.06);
+  }
+  .whatsapp-flutuante--escondido {
+    opacity: 0;
+    transform: translateY(1.5rem) scale(0.8);
+    pointer-events: none;
+  }
+}

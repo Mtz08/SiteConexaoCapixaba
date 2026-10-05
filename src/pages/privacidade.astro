@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/layout/CabecalhoPagina.astro';
+import ApagarDados from '../components/islands/ApagarDados';
+import { site } from '../config/site';
+---
+
+<Base
+  titulo="Política de privacidade"
+  descricao="O site da Conexão Capixaba não coleta dados pessoais em servidor. Saiba o que fica no seu aparelho, como funciona o atendimento pelo WhatsApp e quais são os seus direitos pela LGPD."
+>
+  <CabecalhoPagina titulo="Política de privacidade" sobretitulo="LGPD" trilha={[{ rotulo: 'Privacidade' }]}>
+    <p class="max-w-2xl text-lg text-texto-mudo">
+      Resumo: o site não guarda nenhum dado seu em servidor. O pedido vai pelo WhatsApp, numa mensagem que
+      você mesmo envia.
+    </p>
+  </CabecalhoPagina>
+
+  <div class="container-site">
+    <!--
+      TODO: REVISÃO JURÍDICA OBRIGATÓRIA antes de publicar.
+      Base legal citada: Lei nº 13.709/2018 (LGPD), em vigor desde 18/09/2020 (sanções administrativas
+      desde 01/08/2021), em especial arts. 7º e 18. Preencher o controlador e o contato do encarregado.
+    -->
+    <div class="prosa">
+      <!-- TODO: confirmar data da última atualização no momento da publicação. -->
+      <p>
+        <strong>Última atualização:</strong> outubro de 2026.
+      </p>
+
+      <h2>1. Quem somos</h2>
+      <p>
+        Esta política vale para o site da <strong>{site.nome}</strong>.
+        <!-- TODO: informar razão social, CNPJ e endereço do controlador dos dados. -->
+      </p>
+
+      <h2>2. Quais dados o site coleta</h2>
+      <p>
+        <strong>Nenhum dado pessoal é enviado para servidor nosso.</strong> O site não tem cadastro, login,
+        formulário, pagamento, cookies de rastreamento, pixels de anúncio nem ferramentas de análise de
+        terceiros. Fontes e arquivos são servidos pelo próprio site, sem chamadas a serviços externos ao abrir
+        as páginas.
+      </p>
+
+      <h2>3. O que fica guardado no seu aparelho</h2>
+      <p>
+        Para o carrinho funcionar, o seu navegador guarda localmente (no "armazenamento local" do aparelho):
+      </p>
+      <ul>
+        <li>os produtos, tamanhos e quantidades do carrinho;</li>
+        <li>
+          o nome e a cidade, <strong>só se você preencher</strong> (são opcionais).
+        </li>
+      </ul>
+      <p>
+        Esses dados <strong>não saem do seu aparelho</strong> a não ser na mensagem que você mesmo decide
+        enviar pelo WhatsApp. A finalidade é só manter o carrinho entre visitas e agilizar o atendimento. Você
+        pode apagar tudo a qualquer momento:
+      </p>
+      <ApagarDados client:visible />
+      <p>Limpar os dados de navegação do seu navegador também apaga essas informações.</p>
+
+      <h2>4. Atendimento pelo WhatsApp</h2>
+      <p>
+        Ao tocar em um botão de WhatsApp, você é levado ao aplicativo ou ao WhatsApp Web com uma mensagem
+        pronta. A partir daí, a conversa acontece no WhatsApp e está sujeita aos termos e à política de
+        privacidade do WhatsApp. Usamos os dados que você nos envia na conversa (como nome, endereço de
+        entrega e telefone) apenas para atender e entregar o seu pedido.
+      </p>
+      <!-- TODO: informar por quanto tempo as conversas e dados de pedidos são mantidos pela loja e com quem são compartilhados (ex.: transportadora, meio de pagamento). -->
+
+      <h2>5. Hospedagem</h2>
+      <p>
+        O site é hospedado na Netlify. Como em qualquer site, o provedor de hospedagem pode registrar dados
+        técnicos das conexões (como endereço IP e tipo de navegador) para segurança e funcionamento do
+        serviço.
+      </p>
+
+      <h2>6. Seus direitos</h2>
+      <p>
+        Pela Lei Geral de Proteção de Dados (Lei nº 13.709/2018, art. 18), você pode pedir, entre outros: a
+        confirmação de que tratamos dados seus; o acesso a eles; a correção de dados incompletos ou
+        desatualizados; a anonimização, o bloqueio ou a eliminação de dados desnecessários; a portabilidade;
+        informações sobre compartilhamento; e a revogação do consentimento.
+      </p>
+
+      <h2>7. Contato sobre privacidade</h2>
+      <p>
+        Para exercer seus direitos ou tirar dúvidas sobre esta política, fale com a gente pelo WhatsApp.
+        <!-- TODO: informar o nome e o contato do encarregado (DPO) ou responsável pelos dados. -->
+      </p>
+
+      <h2>8. Mudanças nesta política</h2>
+      <p>
+        Se esta política mudar (por exemplo, se um dia passarmos a usar alguma ferramenta de análise), a nova
+        versão será publicada nesta página, e qualquer ferramenta que use cookies só será ativada com o seu
+        consentimento.
+      </p>
+    </div>
+  </div>
+</Base>

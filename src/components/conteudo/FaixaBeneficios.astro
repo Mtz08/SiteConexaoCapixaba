@@ -1,0 +1,75 @@
+---
+import Icone, { type NomeIcone } from '../icones/Icone.astro';
+
+const beneficios: { icone: NomeIcone; titulo: string; texto: string }[] = [
+  { icone: 'caminhao', titulo: 'Envio para todo o Brasil', texto: 'Do Espírito Santo até a sua cidade.' },
+  { icone: 'whatsapp', titulo: 'Pedido rápido', texto: 'Escolheu, mandou no WhatsApp. Sem cadastro.' },
+  { icone: 'mapa', titulo: 'Feito no ES', texto: 'Marca capixaba, da cultura da estrada.' },
+  { icone: 'mao', titulo: 'Atendimento humano', texto: 'Gente de verdade do outro lado.' },
+];
+---
+
+<section aria-label="Por que comprar com a gente" class="beneficios">
+  <ul class="container-site beneficios__lista">
+    {beneficios.map((b) => (
+      <li class="beneficio">
+        <span class="beneficio__icone" aria-hidden="true">
+          <Icone nome={b.icone} tamanho={22} />
+        </span>
+        <div>
+          <p class="beneficio__titulo">{b.titulo}</p>
+          <p class="beneficio__texto">{b.texto}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .beneficios {
+    border-bottom: 1px solid var(--faixa);
+    background-color: var(--asfalto-2);
+  }
+  .beneficios__lista {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1rem;
+    padding-block: 1.5rem;
+  }
+  @media (width >= 64rem) {
+    .beneficios__lista {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .beneficio {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  /* Ícone em placa azul de serviço */
+  .beneficio__icone {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 2px solid #ffffff;
+    border-radius: 0.5rem;
+    background-color: var(--placa-azul);
+    color: #ffffff;
+    box-shadow: 0 0 0 2px var(--placa-azul);
+  }
+  .beneficio__titulo {
+    font-stretch: 80%;
+    font-weight: 800;
+    font-size: var(--text-sm);
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+  .beneficio__texto {
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    color: var(--texto-mudo);
+  }
+</style>

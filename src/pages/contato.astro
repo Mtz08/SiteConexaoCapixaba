@@ -1,0 +1,111 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/layout/CabecalhoPagina.astro';
+import Icone from '../components/icones/Icone.astro';
+import { instagramUrl, site } from '../config/site';
+import { mensagemContato, montarLinkWhatsApp } from '../lib/whatsapp';
+---
+
+<Base
+  titulo="Contato"
+  descricao="Fale com a Conexão Capixaba pelo WhatsApp ou pelo Instagram. Atendimento humano para pedidos, dúvidas e trocas."
+>
+  <CabecalhoPagina titulo="Fale com a gente" sobretitulo="Contato" trilha={[{ rotulo: 'Contato' }]}>
+    <p class="max-w-2xl text-lg text-texto-mudo">
+      Pedido, dúvida de tamanho, troca ou só para trocar uma ideia sobre estrada: o caminho mais rápido é o
+      WhatsApp.
+    </p>
+  </CabecalhoPagina>
+
+  <div class="container-site grid gap-5 md:grid-cols-3">
+    <a
+      href={montarLinkWhatsApp(mensagemContato)}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="canal canal--whatsapp"
+    >
+      <Icone nome="whatsapp" tamanho={40} />
+      <span class="canal__titulo">WhatsApp</span>
+      <span class="canal__texto">Pedidos, dúvidas e trocas. Resposta de gente de verdade.</span>
+      <span class="canal__acao">Abrir conversa →</span>
+      <span class="sr-only">(abre em nova aba)</span>
+    </a>
+
+    <a href={instagramUrl} target="_blank" rel="noopener noreferrer" class="canal" data-cor="azul">
+      <Icone nome="instagram" tamanho={40} />
+      <span class="canal__titulo">Instagram</span>
+      <span class="canal__texto">Lançamentos e bastidores da Conexão.</span>
+      <span class="canal__acao">@{site.instagram} →</span>
+      <span class="sr-only">(abre em nova aba)</span>
+    </a>
+
+    <div class="canal" data-cor="amarela">
+      <Icone nome="relogio" tamanho={40} />
+      <p class="canal__titulo">Horário</p>
+      <p class="canal__texto">Atendimento pelo WhatsApp:</p>
+      <p class="canal__acao">{site.horarioAtendimento}</p>
+    </div>
+  </div>
+
+  <div class="container-site mt-12">
+    <p class="max-w-2xl text-texto-mudo">
+      Não temos formulário de contato: assim nenhum dado seu fica guardado com a gente pelo site.
+    </p>
+    <a href="/privacidade" class="mt-2 inline-flex min-h-11 items-center text-texto underline">
+      Leia a política de privacidade
+    </a>
+  </div>
+</Base>
+
+<style>
+  .canal {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    min-height: 15rem;
+    padding: 1.75rem 1.5rem;
+    border-radius: var(--raio-placa);
+    background-color: var(--cor-placa);
+    color: var(--cor-placa-tx);
+    text-decoration: none;
+    box-shadow: var(--sombra-placa);
+  }
+  .canal::before {
+    content: '';
+    position: absolute;
+    inset: 0.375rem;
+    border: 2px solid currentColor;
+    border-radius: calc(var(--raio-placa) - 0.3rem);
+    pointer-events: none;
+  }
+  /* WhatsApp: a cor exclusiva das ações de WhatsApp */
+  .canal--whatsapp {
+    background-color: var(--whatsapp);
+    color: var(--whatsapp-tx);
+  }
+  a.canal {
+    transition: transform 0.2s;
+  }
+  a.canal:hover {
+    transform: translateY(-3px);
+  }
+  .canal__titulo {
+    margin-top: 0.75rem;
+    font-stretch: 66%;
+    font-weight: 900;
+    font-size: var(--text-3xl);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .canal__texto {
+    font-weight: 500;
+  }
+  .canal__acao {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: var(--text-lg);
+  }
+</style>

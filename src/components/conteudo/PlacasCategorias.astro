@@ -1,0 +1,129 @@
+---
+import { IconeCategoria } from '../produto/IconeCategoria';
+import type { Categoria } from '../../lib/catalogo/schema';
+
+/** Categorias como placas grandes de direção, clicáveis. */
+interface Props {
+  categorias: (Categoria & { quantidade: number })[];
+}
+
+const { categorias } = Astro.props;
+---
+
+<ul class="placas">
+  {categorias.map((c) => (
+    <li>
+      <a href={`/loja/${c.id}`} class="placa" data-cor={c.cor}>
+        <IconeCategoria icone={c.icone} class="placa__icone" />
+        <span class="placa__texto">
+          <span class="placa__nome">{c.nome}</span>
+          <span class="placa__qtd">{c.quantidade === 1 ? '1 produto' : `${c.quantidade} produtos`}</span>
+        </span>
+        <svg class="placa__seta" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+          <path
+            d="M5 12h14M13 6l6 6-6 6"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .placas {
+    display: grid;
+    gap: 0.875rem;
+  }
+  @media (width >= 40rem) {
+    .placas {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (width >= 64rem) {
+    .placas {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+  .placa {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 6rem;
+    height: 100%;
+    padding: 1rem 1.125rem;
+    border-radius: var(--raio-placa);
+    background-color: var(--cor-placa);
+    color: var(--cor-placa-tx);
+    text-decoration: none;
+    box-shadow: var(--sombra-placa);
+    overflow: hidden;
+    transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .placa::before {
+    content: '';
+    position: absolute;
+    inset: 0.375rem;
+    border: 2px solid currentColor;
+    border-radius: calc(var(--raio-placa) - 0.3rem);
+    pointer-events: none;
+  }
+  @media (width >= 64rem) {
+    .placa {
+      flex-direction: column;
+      align-items: flex-start;
+      min-height: 13rem;
+      padding: 1.25rem;
+    }
+  }
+  .placa:hover {
+    transform: translateY(-3px);
+  }
+  .placa__icone {
+    flex: none;
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  @media (width >= 64rem) {
+    .placa__icone {
+      width: 4.5rem;
+      height: 4.5rem;
+    }
+  }
+  .placa__texto {
+    display: grid;
+    flex: 1;
+    gap: 0.125rem;
+  }
+  .placa__nome {
+    font-stretch: 66%;
+    font-weight: 900;
+    font-size: var(--text-2xl);
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+  .placa__qtd {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    opacity: 0.9;
+  }
+  .placa__seta {
+    flex: none;
+    transition: transform 0.2s;
+  }
+  @media (width >= 64rem) {
+    .placa__seta {
+      position: absolute;
+      right: 1.25rem;
+      bottom: 1.25rem;
+    }
+  }
+  .placa:hover .placa__seta {
+    transform: translateX(4px);
+  }
+</style>

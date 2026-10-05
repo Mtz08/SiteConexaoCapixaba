@@ -5,6 +5,8 @@ import Seo, { type SeoProps } from '../components/seo/Seo.astro';
 import Cabecalho from '../components/layout/Cabecalho.astro';
 import Rodape from '../components/layout/Rodape.astro';
 import GavetaCarrinho from '../components/islands/GavetaCarrinho';
+import WhatsAppFlutuante from '../components/islands/WhatsAppFlutuante';
+import { mensagemContato, montarLinkWhatsApp } from '../lib/whatsapp';
 import { site } from '../config/site';
 
 type Props = SeoProps;
@@ -40,6 +42,7 @@ const seo = Astro.props;
 
     <Rodape />
 
+    <WhatsAppFlutuante client:idle link={montarLinkWhatsApp(mensagemContato)} />
     <GavetaCarrinho client:idle />
     <slot name="fim" />
   </body>

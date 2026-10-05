@@ -1,0 +1,123 @@
+---
+/** Passos numerados como marcos quilométricos de rodovia (KM 01, KM 02…). */
+export interface Passo {
+  titulo: string;
+  texto: string;
+}
+
+interface Props {
+  passos?: Passo[];
+  nivel?: 'h2' | 'h3';
+}
+
+const passosPadrao: Passo[] = [
+  { titulo: 'Escolha o produto', texto: 'Selecione tamanho, cor e quantidade.' },
+  {
+    titulo: 'Clique em comprar',
+    texto: 'Use "Comprar pelo WhatsApp" para um item, ou monte um carrinho com vários.',
+  },
+  {
+    titulo: 'Combine com a gente',
+    texto:
+      'O WhatsApp abre com o pedido pronto. Confirmamos disponibilidade, valor, frete, pagamento e envio.',
+  },
+];
+
+const { passos = passosPadrao, nivel = 'h3' } = Astro.props;
+const Titulo = nivel;
+---
+
+<ol class="passos">
+  {passos.map((passo, i) => (
+    <li class="passo">
+      <div class="marco" aria-hidden="true">
+        <span class="marco__km">KM</span>
+        <span class="marco__numero">{String(i + 1).padStart(2, '0')}</span>
+      </div>
+      <div class="passo__texto">
+        <Titulo class="passo__titulo">
+          <span class="sr-only">Passo {i + 1}: </span>
+          {passo.titulo}
+        </Titulo>
+        <p>{passo.texto}</p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .passos {
+    position: relative;
+    display: grid;
+    gap: 2rem;
+  }
+  @media (width >= 48rem) {
+    .passos {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    /* Acostamento ligando os marcos */
+    .passos::before {
+      content: '';
+      position: absolute;
+      top: 2.6rem;
+      left: 2rem;
+      right: 2rem;
+      height: 4px;
+      background-image: repeating-linear-gradient(90deg, var(--faixa-2) 0 1.25rem, transparent 1.25rem 2rem);
+    }
+  }
+  .passo {
+    position: relative;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+  @media (width >= 48rem) {
+    .passo {
+      flex-direction: column;
+    }
+  }
+  /* Marco quilométrico: poste branco com topo arredondado e faixa */
+  .marco {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    flex: none;
+    justify-items: center;
+    align-content: center;
+    width: 4.25rem;
+    height: 5.25rem;
+    border-radius: 2.2rem 2.2rem 0.4rem 0.4rem;
+    background-color: var(--placa-branca);
+    color: var(--asfalto);
+    box-shadow:
+      inset 0 -0.9rem 0 var(--placa-pare),
+      0 8px 20px -8px rgb(0 0 0 / 0.7);
+  }
+  .marco__km {
+    margin-top: -0.6rem;
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+  }
+  .marco__numero {
+    font-stretch: 65%;
+    font-weight: 900;
+    font-size: 2rem;
+    line-height: 0.9;
+    font-variant-numeric: tabular-nums;
+  }
+  .passo__texto {
+    display: grid;
+    gap: 0.375rem;
+    padding-top: 0.5rem;
+  }
+  .passo__titulo {
+    font-size: var(--text-2xl);
+  }
+  .passo__texto p {
+    color: var(--texto-mudo);
+  }
+</style>

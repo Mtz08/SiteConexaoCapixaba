@@ -1,0 +1,90 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  titulo="Página não encontrada"
+  descricao="Esta página não existe. Volte para a loja da Conexão Capixaba."
+  noindex
+>
+  <section class="container-site erro">
+    <div class="placa-saida" aria-hidden="true">
+      <span class="placa-saida__topo">Saída</span>
+      <span class="placa-saida__numero">404</span>
+      <span class="placa-saida__seta">↗</span>
+    </div>
+    <div class="flex flex-col gap-5">
+      <h1 class="titulo-placa text-5xl">Saída errada!</h1>
+      <p class="max-w-xl text-xl text-texto-mudo">
+        Retorne à rodovia principal. A página que você procurou não existe ou mudou de lugar.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/loja" class="botao botao--primario botao--grande">
+          Ir para a loja
+        </a>
+        <a href="/" class="botao botao--contorno botao--grande">
+          Página inicial
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .erro {
+    display: grid;
+    align-items: center;
+    gap: 2.5rem;
+    min-height: 60vh;
+    padding-block: 4rem;
+  }
+  @media (width >= 48rem) {
+    .erro {
+      grid-template-columns: auto 1fr;
+      gap: 4rem;
+    }
+  }
+  /* Placa verde de saída de rodovia */
+  .placa-saida {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    width: min(100%, 18rem);
+    padding: 1.5rem 1.75rem;
+    border-radius: var(--raio-placa);
+    background-color: var(--placa-verde);
+    color: #ffffff;
+    box-shadow: var(--sombra-placa);
+  }
+  .placa-saida::before {
+    content: '';
+    position: absolute;
+    inset: 0.5rem;
+    border: 3px solid #ffffff;
+    border-radius: calc(var(--raio-placa) - 0.35rem);
+  }
+  .placa-saida__topo {
+    padding: 0.125rem 0.625rem;
+    border-radius: 0.25rem;
+    background-color: var(--placa-amarela);
+    color: var(--asfalto);
+    font-stretch: 85%;
+    font-weight: 900;
+    font-size: var(--text-sm);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .placa-saida__numero {
+    font-stretch: 62%;
+    font-weight: 900;
+    font-size: 7rem;
+    line-height: 0.95;
+  }
+  .placa-saida__seta {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1rem;
+    font-size: 3.5rem;
+    font-weight: 700;
+  }
+</style>

@@ -103,7 +103,7 @@ const dadosPainel = {
     </div>
   </div>
 
-  <div class="container-site mt-16 grid gap-12 lg:grid-cols-2">
+  <div class="container-site mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2">
     <section aria-labelledby="titulo-descricao" class="flex flex-col gap-4">
       <h2 id="titulo-descricao" class="titulo-secao">
         Sobre o produto
@@ -157,6 +157,7 @@ const dadosPainel = {
 <style>
   .produto {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
     padding-top: 1rem;
   }
