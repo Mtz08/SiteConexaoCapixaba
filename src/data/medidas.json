@@ -1,0 +1,44 @@
+[
+  {
+    "id": "camisetas",
+    "nome": "Camisetas",
+    "categorias": ["camisetas"],
+    "confirmado": false,
+    "colunas": ["Largura (cm)", "Comprimento (cm)"],
+    "linhas": [
+      { "tamanho": "P", "valores": [50, 70] },
+      { "tamanho": "M", "valores": [53, 72] },
+      { "tamanho": "G", "valores": [56, 74] },
+      { "tamanho": "GG", "valores": [59, 76] }
+    ],
+    "_notas": "TODO: valores de EXEMPLO. Medir as peças reais e trocar; depois mudar confirmado para true."
+  },
+  {
+    "id": "polo",
+    "nome": "Camisas Polo",
+    "categorias": ["polo"],
+    "confirmado": false,
+    "colunas": ["Largura (cm)", "Comprimento (cm)"],
+    "linhas": [
+      { "tamanho": "P", "valores": [51, 70] },
+      { "tamanho": "M", "valores": [54, 72] },
+      { "tamanho": "G", "valores": [57, 74] },
+      { "tamanho": "GG", "valores": [60, 76] }
+    ],
+    "_notas": "TODO: valores de EXEMPLO. Medir as peças reais e trocar; depois mudar confirmado para true."
+  },
+  {
+    "id": "moletons",
+    "nome": "Moletons",
+    "categorias": ["moletons"],
+    "confirmado": false,
+    "colunas": ["Largura (cm)", "Comprimento (cm)", "Manga (cm)"],
+    "linhas": [
+      { "tamanho": "P", "valores": [54, 66, 60] },
+      { "tamanho": "M", "valores": [57, 68, 62] },
+      { "tamanho": "G", "valores": [60, 70, 64] },
+      { "tamanho": "GG", "valores": [63, 72, 66] }
+    ],
+    "_notas": "TODO: valores de EXEMPLO. Medir as peças reais e trocar; depois mudar confirmado para true."
+  }
+]

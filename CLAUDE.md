@@ -103,6 +103,10 @@ de exemplo, enquanto ele não for trocado).
 O Chrome headless não renderiza janelas com menos de ~500 px. Para capturar em 320/390 px,
 use uma página com `<iframe width="320">` apontando para `npm run preview`.
 
+Testes de interação (clicar, teclado, sem JS): `puppeteer-core` instalado **fora do projeto**
+(pasta temporária), usando o Chrome da máquina. Não adicionar ao package.json.
+Fotos de teste geradas com sharp devem ser apagadas e o `produtos.json` restaurado ao final.
+
 ## Número de WhatsApp
 
 Enquanto `site.whatsapp` for o número de exemplo, o **build de produção falha**. Para builds de

@@ -2,6 +2,7 @@
 @import '@fontsource-variable/archivo/wdth.css';
 @import './ui.css';
 @import './produto.css';
+@import './produto-pagina.css';
 
 /* ==========================================================================
    Tokens — "Sinalização de rodovia à noite"

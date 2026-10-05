@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/layout/CabecalhoPagina.astro';
+import TabelaMedidas from '../components/produto/TabelaMedidas.astro';
+import { listarTabelasDeMedidas } from '../lib/catalogo/consultas';
+import { mensagemContato, montarLinkWhatsApp } from '../lib/whatsapp';
+
+const tabelas = await listarTabelasDeMedidas();
+---
+
+<Base
+  titulo="Guia de medidas"
+  descricao="Tabela de medidas das camisas polo, camisetas e moletons Conexão Capixaba, com dicas de como medir para acertar o tamanho."
+>
+  <CabecalhoPagina
+    titulo="Guia de medidas"
+    sobretitulo="Acerte o tamanho"
+    trilha={[{ rotulo: 'Guia de medidas' }]}
+  >
+    <p class="max-w-2xl text-lg text-texto-mudo">
+      Compare as medidas com uma peça sua que veste bem. Ficou em dúvida? Chama a gente no WhatsApp antes de
+      pedir.
+    </p>
+  </CabecalhoPagina>
+
+  <div class="container-site grid gap-14 lg:grid-cols-2">
+    {tabelas.map((tabela, i) => (
+      <section id={tabela.id} class="scroll-mt-24">
+        <TabelaMedidas tabela={tabela} comDicas={i === 0} />
+      </section>
+    ))}
+  </div>
+
+  <div class="container-site mt-14">
+    <a
+      href={montarLinkWhatsApp(mensagemContato)}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="botao botao--whatsapp"
+    >
+      Tirar dúvida de tamanho no WhatsApp
+      <span class="sr-only">(abre em nova aba)</span>
+    </a>
+  </div>
+</Base>

@@ -152,3 +152,64 @@ export function criarSchemaProduto(idsCategorias: readonly [string, ...string[]]
 }
 
 export type Produto = z.output<ReturnType<typeof criarSchemaProduto>>;
+
+// ---------------------------------------------------------------------------
+// Guia de medidas
+// ---------------------------------------------------------------------------
+export function criarSchemaMedidas(idsCategorias: readonly [string, ...string[]]) {
+  return z
+    .strictObject(
+      {
+        id: slug('id'),
+        nome: texto('nome', 40),
+        categorias: z
+          .array(
+            z.enum(idsCategorias, {
+              error: `Categoria inválida. Use uma destas: ${idsCategorias.join(', ')}.`,
+            }),
+          )
+          .min(1, 'Informe pelo menos uma categoria em "categorias".'),
+        /** false = valores ainda não conferidos; o site mostra um aviso. */
+        confirmado: z.boolean({ error: '"confirmado" deve ser true ou false (sem aspas).' }),
+        colunas: z.array(texto('coluna', 30)).min(1, 'Informe pelo menos uma coluna.'),
+        linhas: z
+          .array(
+            z.strictObject(
+              {
+                tamanho: texto('tamanho', 10),
+                valores: z.array(
+                  z.number({ error: 'As medidas devem ser números sem aspas. Ex.: 52 ou 52.5' }).positive(),
+                ),
+              },
+              { error: erroCampoDesconhecido },
+            ),
+          )
+          .min(1, 'Informe pelo menos uma linha de tamanho.'),
+        comoMedir: z.array(texto('comoMedir')).default([]),
+        _notas: notas,
+      },
+      { error: erroCampoDesconhecido },
+    )
+    .superRefine((tabela, ctx) => {
+      const vistos = new Set<string>();
+      tabela.linhas.forEach((linha, i) => {
+        if (linha.valores.length !== tabela.colunas.length) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['linhas', i, 'valores'],
+            message: `O tamanho "${linha.tamanho}" tem ${linha.valores.length} medidas, mas a tabela tem ${tabela.colunas.length} colunas.`,
+          });
+        }
+        if (vistos.has(linha.tamanho)) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['linhas', i, 'tamanho'],
+            message: `O tamanho "${linha.tamanho}" aparece duas vezes.`,
+          });
+        }
+        vistos.add(linha.tamanho);
+      });
+    });
+}
+
+export type TabelaMedidas = z.output<ReturnType<typeof criarSchemaMedidas>>;

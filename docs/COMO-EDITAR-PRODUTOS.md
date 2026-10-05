@@ -211,3 +211,30 @@ A mensagem do build sempre começa dizendo **qual produto** (pelo `id`) e **qual
 
 Depois de corrigir, rode de novo `npm run build` (ou salve o arquivo com o `npm run dev`
 aberto) para confirmar.
+
+---
+
+## 9. Guia de medidas
+
+As tabelas ficam em **`src/data/medidas.json`**. Cada tabela vale para uma ou mais categorias
+e aparece na página dos produtos que têm a opção `Tamanho`, e também em `/guia-de-medidas`.
+
+```json
+{
+  "id": "camisetas",
+  "nome": "Camisetas",
+  "categorias": ["camisetas"],
+  "confirmado": true,
+  "colunas": ["Largura (cm)", "Comprimento (cm)"],
+  "linhas": [
+    { "tamanho": "P", "valores": [50, 70] },
+    { "tamanho": "M", "valores": [53, 72] }
+  ]
+}
+```
+
+- Cada linha precisa ter **um valor para cada coluna**, na mesma ordem.
+- Medidas com vírgula usam **ponto**: `52.5`.
+- **`"confirmado": false`** mostra no site o aviso "Medidas de referência — confirme com a gente".
+  Os valores atuais são de **exemplo**: meça as peças, troque os números e mude para `true`.
+- Opcional: `"comoMedir": ["passo 1", "passo 2"]` substitui as dicas padrão de como medir.

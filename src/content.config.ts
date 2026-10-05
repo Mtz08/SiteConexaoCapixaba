@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
-import { criarSchemaProduto, schemaCategoria } from './lib/catalogo/schema';
+import { criarSchemaMedidas, criarSchemaProduto, schemaCategoria } from './lib/catalogo/schema';
 import { lerListaJson } from './lib/catalogo/lerJson';
 import { catalogoLoader } from './lib/catalogo/loader';
 
@@ -10,12 +10,15 @@ z.config(z.locales.ptBR());
 
 const ARQUIVO_CATEGORIAS = 'src/data/categorias.json';
 const ARQUIVO_PRODUTOS = 'src/data/produtos.json';
+const ARQUIVO_MEDIDAS = 'src/data/medidas.json';
 
 const lerCategorias = (texto: string) =>
   lerListaJson(texto, 'categorias.json', { unicos: ['id', 'ordem'], rotulo: 'nome' });
 
 const lerProdutos = (texto: string) =>
   lerListaJson(texto, 'produtos.json', { unicos: ['id', 'slug'], rotulo: 'nome' });
+
+const lerMedidas = (texto: string) => lerListaJson(texto, 'medidas.json', { unicos: ['id'], rotulo: 'nome' });
 
 /** Ids das categorias, lidos do próprio categorias.json: única fonte da verdade. */
 function idsCategorias(): readonly [string, ...string[]] {
@@ -35,4 +38,9 @@ const produtos = defineCollection({
   schema: criarSchemaProduto(idsCategorias()),
 });
 
-export const collections = { categorias, produtos };
+const medidas = defineCollection({
+  loader: catalogoLoader(ARQUIVO_MEDIDAS, lerMedidas),
+  schema: criarSchemaMedidas(idsCategorias()),
+});
+
+export const collections = { categorias, produtos, medidas };

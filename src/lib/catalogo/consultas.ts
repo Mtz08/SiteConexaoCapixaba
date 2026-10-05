@@ -1,5 +1,5 @@
 import { getCollection } from 'astro:content';
-import type { Categoria, Produto } from './schema';
+import type { Categoria, Produto, TabelaMedidas } from './schema';
 
 /**
  * Consultas ao catálogo (rodam no build). Páginas e componentes usam SÓ estas funções,
@@ -37,4 +37,13 @@ export async function listarPorCategoria(idCategoria: string): Promise<Produto[]
 
 export async function mapaCategorias(): Promise<Map<string, Categoria>> {
   return new Map((await listarCategorias()).map((c) => [c.id, c]));
+}
+
+export async function listarTabelasDeMedidas(): Promise<TabelaMedidas[]> {
+  return (await getCollection('medidas')).map((e) => e.data);
+}
+
+/** Tabela de medidas da categoria, se houver. */
+export async function tabelaDeMedidas(idCategoria: string): Promise<TabelaMedidas | undefined> {
+  return (await listarTabelasDeMedidas()).find((t) => t.categorias.includes(idCategoria));
 }

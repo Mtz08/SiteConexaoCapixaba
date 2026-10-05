@@ -1,0 +1,227 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import GradeProdutos from '../../components/produto/GradeProdutos.astro';
+import TabelaMedidas from '../../components/produto/TabelaMedidas.astro';
+import { PlaceholderPlaca } from '../../components/produto/PlaceholderPlaca';
+import Galeria from '../../components/islands/Galeria';
+import PainelProduto from '../../components/islands/PainelProduto';
+import { listarProdutos, mapaCategorias, tabelaDeMedidas } from '../../lib/catalogo/consultas';
+import { fotosDoProduto } from '../../lib/catalogo/fotos';
+import { fotosParaGaleria } from '../../lib/catalogo/galeria';
+import { escolherRelacionados } from '../../lib/catalogo/relacionados';
+import type { Produto } from '../../lib/catalogo/schema';
+import { site } from '../../config/site';
+import { mensagemInteresse, montarLinkWhatsApp } from '../../lib/whatsapp';
+
+export const getStaticPaths = (async () => {
+  const produtos = await listarProdutos();
+  return produtos.map((produto) => ({ params: { slug: produto.slug }, props: { produto } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  produto: Produto;
+}
+
+const { produto } = Astro.props;
+const [todos, categorias] = await Promise.all([listarProdutos(), mapaCategorias()]);
+const categoria = categorias.get(produto.categoria);
+if (!categoria)
+  throw new Error(`Categoria "${produto.categoria}" do produto "${produto.id}" não encontrada.`);
+
+const temTamanho = produto.opcoes.some((o) => o.nome === 'Tamanho');
+const medidas = temTamanho ? await tabelaDeMedidas(produto.categoria) : undefined;
+const fotos = await fotosParaGaleria(fotosDoProduto(produto));
+const relacionados = escolherRelacionados(produto, todos);
+
+const dadosPainel = {
+  id: produto.id,
+  nome: produto.nome,
+  precoBase: produto.precoBase,
+  precoDe: produto.precoDe,
+  opcoes: produto.opcoes,
+  variacoes: produto.variacoes.map(({ combinacao, preco, disponivel }) => ({
+    combinacao,
+    preco,
+    disponivel,
+  })),
+};
+---
+
+<Base
+  titulo={produto.nome}
+  descricao={`${produto.descricaoCurta} ${site.nome}: enviamos para todo o Brasil.`}
+  tipo="product"
+>
+  <div class="container-site pt-4">
+    <Breadcrumbs
+      itens={[
+        { rotulo: 'Loja', href: '/loja' },
+        { rotulo: categoria.nome, href: `/loja/${categoria.id}` },
+        { rotulo: produto.nome },
+      ]}
+    />
+  </div>
+
+  <div class="produto container-site">
+    <div class="produto__galeria">
+      {fotos.length > 0 ? (
+        <Galeria client:idle fotos={fotos} nomeProduto={produto.nome} />
+      ) : (
+        <div class="produto__placeholder">
+          <PlaceholderPlaca nome={produto.nome} categoria={categoria} variante="galeria" />
+        </div>
+      )}
+    </div>
+
+    <div class="produto__info">
+      <div class="flex flex-wrap items-center gap-2">
+        <a href={`/loja/${categoria.id}`} class="produto__categoria" data-cor={categoria.cor}>
+          {categoria.nomeSingular}
+        </a>
+        {produto.novo && <span class="selo selo--novo">Novo</span>}
+        {produto.precoDe !== undefined && <span class="selo selo--promo">Promoção</span>}
+      </div>
+      <h1 class="titulo-placa text-4xl">{produto.nome}</h1>
+      <p class="text-lg text-texto-mudo">{produto.descricaoCurta}</p>
+
+      <PainelProduto
+        client:load
+        produto={dadosPainel}
+        quantidadeMaxima={site.quantidadeMaximaPorItem}
+        linkSemJs={montarLinkWhatsApp(mensagemInteresse(produto.nome))}
+        ancoraMedidas={medidas ? 'medidas' : undefined}
+      />
+
+      <ul class="produto__garantias">
+        <li>Enviamos para todo o Brasil</li>
+        <li>Pedido rápido pelo WhatsApp, sem cadastro</li>
+        <li>Atendimento humano: {site.horarioAtendimento}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container-site mt-16 grid gap-12 lg:grid-cols-2">
+    <section aria-labelledby="titulo-descricao" class="flex flex-col gap-4">
+      <h2 id="titulo-descricao" class="titulo-secao">
+        Sobre o produto
+      </h2>
+      {produto.descricao.map((paragrafo) => (
+        <p class="max-w-prose text-texto-mudo">{paragrafo}</p>
+      ))}
+      {produto.cuidados.length > 0 && (
+        <>
+          <h3 class="mt-4 text-lg">Cuidados com a peça</h3>
+          <ul class="flex list-disc flex-col gap-1 pl-5 text-texto-mudo">
+            {produto.cuidados.map((cuidado) => (
+              <li>{cuidado}</li>
+            ))}
+          </ul>
+        </>
+      )}
+    </section>
+
+    {medidas && (
+      <section id="medidas" aria-labelledby="titulo-medidas" class="flex scroll-mt-24 flex-col gap-4">
+        <h2 id="titulo-medidas" class="titulo-secao">
+          Guia de medidas
+        </h2>
+        <TabelaMedidas tabela={medidas} />
+        <a href="/guia-de-medidas" class="self-start text-sm text-texto-mudo underline hover:text-texto">
+          Ver todas as tabelas de medidas
+        </a>
+      </section>
+    )}
+  </div>
+
+  {relacionados.length > 0 && (
+    <section aria-labelledby="titulo-relacionados" class="container-site mt-20 flex flex-col gap-6">
+      <div class="faixa-central" aria-hidden="true" />
+      <h2 id="titulo-relacionados" class="titulo-secao">
+        Você também pode gostar
+      </h2>
+      <GradeProdutos
+        id="grade-relacionados"
+        produtos={relacionados}
+        categorias={categorias}
+        rotulo="Produtos relacionados"
+        prioritarios={0}
+        nivelTitulo="h3"
+      />
+    </section>
+  )}
+</Base>
+
+<style>
+  .produto {
+    display: grid;
+    gap: 2rem;
+    padding-top: 1rem;
+  }
+  @media (width >= 64rem) {
+    .produto {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      align-items: start;
+      gap: 3.5rem;
+    }
+    .produto__galeria {
+      position: sticky;
+      top: calc(var(--altura-cabecalho) + 1.5rem);
+    }
+  }
+
+  .produto__placeholder {
+    border-radius: var(--raio-placa);
+    overflow: hidden;
+  }
+
+  .produto__info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .produto__categoria {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.3rem;
+    background-color: var(--cor-placa);
+    color: var(--cor-placa-tx);
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: var(--text-xs);
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .produto__garantias {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--faixa);
+    font-size: var(--text-sm);
+    color: var(--texto-mudo);
+  }
+  .produto__garantias li {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+  .produto__garantias li::before {
+    content: '';
+    flex: none;
+    width: 0.875rem;
+    height: 4px;
+    border-radius: 2px;
+    background-color: var(--placa-amarela);
+  }
+
+  .titulo-secao {
+    font-size: var(--text-3xl);
+  }
+</style>

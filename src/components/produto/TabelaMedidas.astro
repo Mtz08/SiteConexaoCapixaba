@@ -1,0 +1,70 @@
+---
+import type { TabelaMedidas } from '../../lib/catalogo/schema';
+
+interface Props {
+  tabela: TabelaMedidas;
+  /** Mostra as dicas de como medir (padrão: sim). */
+  comDicas?: boolean;
+}
+
+const { tabela, comDicas = true } = Astro.props;
+const dicasPadrao = [
+  'Pegue uma peça sua que veste bem e estique numa mesa.',
+  'Largura: meça de uma axila à outra, em linha reta.',
+  'Comprimento: meça do ponto mais alto do ombro até a barra.',
+  'Compare com a tabela. Ficou entre dois tamanhos? Prefira o maior ou fale com a gente.',
+];
+const dicas = tabela.comoMedir.length > 0 ? tabela.comoMedir : dicasPadrao;
+---
+
+<div class="flex flex-col gap-5">
+  {!tabela.confirmado && (
+    <p class="aviso-medidas">
+      <strong>Medidas de referência.</strong> Antes de fechar o pedido, confirme o tamanho com a gente no
+      WhatsApp.
+    </p>
+  )}
+  <div class="overflow-x-auto">
+    <table class="tabela-medidas">
+      <caption>{tabela.nome}</caption>
+      <thead>
+        <tr>
+          <th scope="col">Tamanho</th>
+          {tabela.colunas.map((coluna) => (
+            <th scope="col">{coluna}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {tabela.linhas.map((linha) => (
+          <tr>
+            <th scope="row">{linha.tamanho}</th>
+            {linha.valores.map((valor) => (
+              <td>{valor.toLocaleString('pt-BR')}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  {comDicas && (
+    <div>
+      <h3 class="mb-2 text-lg">Como medir</h3>
+      <ol class="flex list-decimal flex-col gap-1 pl-5 text-texto-mudo">
+        {dicas.map((dica) => (
+          <li>{dica}</li>
+        ))}
+      </ol>
+    </div>
+  )}
+</div>
+
+<style>
+  .aviso-medidas {
+    padding: 0.75rem 1rem;
+    border-left: 4px solid var(--placa-amarela);
+    border-radius: 0.25rem;
+    background-color: var(--asfalto-2);
+    font-size: var(--text-sm);
+  }
+</style>
