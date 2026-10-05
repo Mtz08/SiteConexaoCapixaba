@@ -1,6 +1,7 @@
 ---
 import Logo from '../marca/Logo.astro';
 import Icone from '../icones/Icone.astro';
+import ContadorCarrinho from '../islands/ContadorCarrinho';
 import { ehPaginaAtual, navegacaoPrincipal } from '../../config/navegacao';
 import { site } from '../../config/site';
 
@@ -34,7 +35,7 @@ const caminho = Astro.url.pathname;
       <a href="/carrinho" class="botao-icone relative" data-abrir-carrinho>
         <Icone nome="caminhao" tamanho={26} />
         <span class="sr-only">Carrinho</span>
-        <slot name="contador-carrinho" />
+        <ContadorCarrinho client:idle />
       </a>
 
       <button

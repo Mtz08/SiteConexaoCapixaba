@@ -59,7 +59,16 @@ de exemplo, enquanto ele não for trocado).
   `catalogoLoader` (`src/lib/catalogo/loader.ts`), que derruba o build.
 - `variacoes[].combinacao` pode ser parcial (`{ "Tamanho": "GG" }` vale para todas as cores).
   A mais específica vence, atributo por atributo; empate com valores diferentes é erro.
-- Chave da linha do carrinho: `produto.id` + `chaveCombinacao(opcoes, combinacao)`.
+- Linha do carrinho: `idLinha()` = `produtoId` + combinação canônica (ordem das opções não importa).
+
+### Carrinho
+
+- Lógica pura em `src/lib/carrinho.ts` (testada); estado em `src/stores/carrinho.ts` (nanostores).
+- Persistência: `@nanostores/persistent` com o motor seguro de `src/lib/armazenamento.ts` (cai para
+  memória se o localStorage falhar). Chaves `carrinho:v1` e `cliente:v1`; vazio = chave apagada.
+- `/catalogo.json` (gerado no build) é baixado pelo navegador para revalidar o carrinho.
+- Gaveta: `<dialog>` em `GavetaCarrinho.tsx`; qualquer elemento com `data-abrir-carrinho` a abre.
+- A mensagem do WhatsApp sai SEMPRE de `montarPedidoWhatsApp()` (`src/lib/whatsapp.ts`).
 - `src/integrations/` — integrações do Astro (checagem do número de WhatsApp)
 - `docs/` — guias para quem edita o site (`CORES.md`, `COMO-EDITAR-PRODUTOS.md`)
 - `fotos-brutas/` — fotos originais (fora do git); processadas por `npm run fotos`
@@ -96,6 +105,10 @@ de exemplo, enquanto ele não for trocado).
   fica em `src/styles/ui.css` e `src/styles/produto.css`, dentro de `@layer components`.
 - Ilhas em `src/components/islands/`. A loja usa uma ilha só para a barra de filtros: os cartões
   são HTML do build e a ilha os esconde/reordena (movendo os nós, para a ordem do teclado acompanhar).
+- **Dados do aparelho (localStorage) e hidratação:** o HTML do build não conhece o carrinho. Todo
+  componente que mostra dado salvo no aparelho usa `useMontado()` (`src/components/carrinho/useMontado.ts`)
+  e só renderiza o conteúdo real depois de montar. Sem isso o Preact reaproveita elementos do HTML
+  do servidor com as classes erradas.
 - Commits semânticos: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`.
 
 ## Testes visuais

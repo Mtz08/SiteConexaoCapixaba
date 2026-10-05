@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import CabecalhoPagina from '../components/layout/CabecalhoPagina.astro';
+import ConteudoCarrinho from '../components/carrinho/ConteudoCarrinho';
+import { mensagemContato, montarLinkWhatsApp } from '../lib/whatsapp';
+---
+
+<Base titulo="Carrinho" descricao="Revise seu pedido e envie pelo WhatsApp da Conexão Capixaba." noindex>
+  <CabecalhoPagina titulo="Seu carrinho" trilha={[{ rotulo: 'Carrinho' }]}>
+    <p class="max-w-2xl text-lg text-texto-mudo">
+      Confira os itens e envie o pedido pronto para o nosso WhatsApp. Lá a gente confirma disponibilidade,
+      frete e pagamento.
+    </p>
+  </CabecalhoPagina>
+
+  <div class="container-site max-w-3xl">
+    <ConteudoCarrinho client:load variante="pagina" />
+    <noscript>
+      <div class="filtro__vazio">
+        <p class="filtro__vazio-titulo">O carrinho precisa de JavaScript.</p>
+        <p>
+          Sem ele, você ainda pode fazer o pedido: abra o produto e use o botão "Comprar pelo WhatsApp", ou
+          fale com a gente direto.
+        </p>
+        <a
+          href={montarLinkWhatsApp(mensagemContato)}
+          class="botao botao--whatsapp"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Falar no WhatsApp
+        </a>
+      </div>
+    </noscript>
+  </div>
+</Base>

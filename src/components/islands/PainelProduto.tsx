@@ -16,11 +16,17 @@ import {
 } from '../../lib/catalogo/variacoes';
 import { slugificar } from '../../lib/texto';
 import type { Centavos } from '../../lib/dinheiro';
+import { $totalItens, abrirGaveta, adicionarAoCarrinho } from '../../stores/carrinho';
 
 export interface ProdutoPainel extends DadosVariacao {
   id: string;
+  slug: string;
   nome: string;
   precoDe?: Centavos | undefined;
+}
+
+function textoItens(n: number): string {
+  return n === 1 ? '1 item' : `${n} itens`;
 }
 
 interface Props {
@@ -57,11 +63,15 @@ export default function PainelProduto({ produto, quantidadeMaxima, linkSemJs, an
   const [textoQuantidade, setTextoQuantidade] = useState('1');
   const [avisoQuantidade, setAvisoQuantidade] = useState('');
   const [opcaoComErro, setOpcaoComErro] = useState<string | null>(null);
+  const [montado, setMontado] = useState(false);
+  const [adicionado, setAdicionado] = useState<{ vez: number; texto: string } | null>(null);
+  const [anuncio, setAnuncio] = useState('');
   const painel = useRef<HTMLDivElement>(null);
 
-  // Cada página começa sem seleção.
+  // Cada página começa sem seleção. "Adicionar ao carrinho" só aparece com JavaScript.
   useEffect(() => {
     $selecao.set({});
+    setMontado(true);
   }, []);
 
   const completa = combinacaoCompleta(produto.opcoes, selecao);
@@ -124,7 +134,33 @@ export default function PainelProduto({ produto, quantidadeMaxima, linkSemJs, an
     evento.currentTarget.href = link;
   };
 
+  const aoAdicionar = () => {
+    if (indisponivel || destacarFaltando()) return;
+    const combinacao = Object.fromEntries(produto.opcoes.map((o) => [o.nome, selecao[o.nome] ?? '']));
+    const { limitada } = adicionarAoCarrinho({
+      produtoId: produto.id,
+      combinacao,
+      quantidade,
+      precoUnitario: preco,
+      nome: produto.nome,
+      slug: produto.slug,
+    });
+    // Ex.: "Camiseta Rei da Estrada, tamanho G, adicionada. 3 itens no carrinho."
+    const descricao = produto.opcoes.map((o) => `${o.nome.toLowerCase()} ${selecao[o.nome]}`).join(', ');
+    const itens = textoItens($totalItens.get());
+    const texto = limitada
+      ? `${produto.nome} chegou ao limite de ${quantidadeMaxima} unidades. ${itens} no carrinho.`
+      : `${produto.nome}${descricao ? `, ${descricao},` : ''} adicionada. ${itens} no carrinho.`;
+    setAdicionado({ vez: Date.now(), texto: limitada ? texto : 'Adicionado ao carrinho!' });
+    // Limpa e reescreve para o leitor de tela anunciar mesmo se o texto for igual ao anterior.
+    setAnuncio('');
+    requestAnimationFrame(() => setAnuncio(texto));
+  };
+
   const rotulo = indisponivel ? 'Indisponível' : rotuloCompra(produto, selecao, 'Comprar pelo WhatsApp');
+  const rotuloAdicionar = indisponivel
+    ? 'Indisponível'
+    : rotuloCompra(produto, selecao, 'Adicionar ao carrinho');
 
   return (
     <div class="painel" ref={painel}>
@@ -243,6 +279,26 @@ export default function PainelProduto({ produto, quantidadeMaxima, linkSemJs, an
           {rotulo}
           <span class="sr-only"> (abre o WhatsApp em nova aba)</span>
         </a>
+        <button
+          type="button"
+          class="botao botao--contorno botao--bloco"
+          hidden={!montado}
+          aria-disabled={indisponivel ? 'true' : undefined}
+          onClick={aoAdicionar}
+        >
+          {rotuloAdicionar}
+        </button>
+        {adicionado && (
+          <div key={adicionado.vez} class="painel__adicionado">
+            <span>{adicionado.texto}</span>
+            <button type="button" class="carrinho__link" onClick={abrirGaveta}>
+              Ver carrinho
+            </button>
+          </div>
+        )}
+        <p class="sr-only" aria-live="polite" aria-atomic="true">
+          {anuncio}
+        </p>
         {indisponivel && (
           <p class="painel__indisponivel">
             {completa
