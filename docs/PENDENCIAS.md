@@ -5,7 +5,7 @@ Marque `[x]` conforme resolver. No código, cada item tem um comentário `TODO` 
 
 ## 🚨 Antes de publicar (bloqueia o lançamento)
 
-- [ ] **Número do WhatsApp** — `src/config/site.ts` → `whatsapp`. Só dígitos, com 55 + DDD
+- [x] **Número do WhatsApp** — `src/config/site.ts` → `whatsapp`. Só dígitos, com 55 + DDD
       (ex.: `5527912345678`). Enquanto for o número de exemplo, **o build de produção falha de
       propósito**.
 - [ ] **Domínio final** — `src/config/site.ts` → `url`. Usado nas URLs canônicas, no sitemap, no

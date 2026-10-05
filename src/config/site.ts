@@ -13,7 +13,7 @@ export const site = {
   descricao:
     'Camisas polo, camisetas, moletons, adesivos e bonés para quem vive a estrada. Direto do Espírito Santo, com envio para todo o Brasil.',
   url: 'https://conexaocapixaba.netlify.app', // TODO: domínio final
-  whatsapp: NUMERO_WHATSAPP_FICTICIO, // TODO: número real (só dígitos, com 55 + DDD)
+  whatsapp: '5528999119982', // só dígitos, com 55 + DDD
   instagram: '_conexaocapixaba',
   horarioAtendimento: 'Seg a Sáb, 8h às 18h', // TODO: confirmar
   quantidadeMaximaPorItem: 20,
